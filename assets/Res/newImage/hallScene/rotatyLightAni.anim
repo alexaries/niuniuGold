@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "rotatyLightAni",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.68,
+  "sample": 25,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "339a51f3-f7d0-4f81-9f97-3cee0c499576"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "c83aaf8e-f9aa-47e9-ba80-343efb135329"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "54f69c1e-d44a-4b51-9359-fff884c10264"
+            }
+          },
+          {
+            "frame": 0.6,
+            "value": {
+              "__uuid__": "3d8d5a9f-3aa3-4b64-9e60-bdc25feb5bb9"
+            }
+          },
+          {
+            "frame": 0.64,
+            "value": {
+              "__uuid__": "3d8d5a9f-3aa3-4b64-9e60-bdc25feb5bb9"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

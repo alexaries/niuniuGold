@@ -1,0 +1,149 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "giftAni2",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.9333333333333333,
+  "sample": 15,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "742e7eaa-1e50-4aa9-acdf-84c16a8dedf6"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "01eecd33-ba45-4298-b8c3-84c2a8b64e8b"
+            }
+          },
+          {
+            "frame": 0.13333333333333333,
+            "value": {
+              "__uuid__": "337ca37c-0e71-4d86-9425-db69773d21ad"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "c52485be-5794-41d5-96c3-8dfd4b1798df"
+            }
+          },
+          {
+            "frame": 0.26666666666666666,
+            "value": {
+              "__uuid__": "18ace2bd-04f3-4561-854c-429c6199330a"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "42ecb026-fa35-4c13-801e-06e236311cb4"
+            }
+          }
+        ]
+      }
+    },
+    "paths": {
+      "sprite": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "acee0677-322d-41cc-b644-2fbe4319cf46"
+                }
+              },
+              {
+                "frame": 0.06666666666666667,
+                "value": {
+                  "__uuid__": "7beb7181-bd4e-414e-8465-b1b5a92b52f0"
+                }
+              },
+              {
+                "frame": 0.13333333333333333,
+                "value": {
+                  "__uuid__": "9c541214-1d88-45f0-99d9-7c053587f37e"
+                }
+              },
+              {
+                "frame": 0.2,
+                "value": {
+                  "__uuid__": "c7ea3b1c-5fe0-4fd2-8685-61046b6e45eb"
+                }
+              },
+              {
+                "frame": 0.26666666666666666,
+                "value": {
+                  "__uuid__": "2ae275c9-f44a-4cdf-aa0b-051c1c492dad"
+                }
+              },
+              {
+                "frame": 0.3333333333333333,
+                "value": {
+                  "__uuid__": "acee0677-322d-41cc-b644-2fbe4319cf46"
+                }
+              },
+              {
+                "frame": 0.4,
+                "value": {
+                  "__uuid__": "7beb7181-bd4e-414e-8465-b1b5a92b52f0"
+                }
+              },
+              {
+                "frame": 0.4666666666666667,
+                "value": {
+                  "__uuid__": "c7ea3b1c-5fe0-4fd2-8685-61046b6e45eb"
+                }
+              },
+              {
+                "frame": 0.5333333333333333,
+                "value": {
+                  "__uuid__": "2ae275c9-f44a-4cdf-aa0b-051c1c492dad"
+                }
+              },
+              {
+                "frame": 0.6,
+                "value": {
+                  "__uuid__": "acee0677-322d-41cc-b644-2fbe4319cf46"
+                }
+              },
+              {
+                "frame": 0.6666666666666666,
+                "value": {
+                  "__uuid__": "7beb7181-bd4e-414e-8465-b1b5a92b52f0"
+                }
+              },
+              {
+                "frame": 0.7333333333333333,
+                "value": {
+                  "__uuid__": "9c541214-1d88-45f0-99d9-7c053587f37e"
+                }
+              },
+              {
+                "frame": 0.8,
+                "value": {
+                  "__uuid__": "c7ea3b1c-5fe0-4fd2-8685-61046b6e45eb"
+                }
+              },
+              {
+                "frame": 0.8666666666666667,
+                "value": {
+                  "__uuid__": "2ae275c9-f44a-4cdf-aa0b-051c1c492dad"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "events": []
+}

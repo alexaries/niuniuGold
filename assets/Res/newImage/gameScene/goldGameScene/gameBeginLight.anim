@@ -1,0 +1,52 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "gameBeginLight",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.55,
+  "sample": 20,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": null
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "7c445ad9-c544-4ab4-ab8e-8abdf40036e2"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "26da73b5-3e21-4f0d-ae07-275c4a390067"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "0a6949c9-9a8e-4415-be4f-0df12437f155"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "b13c5a5c-d94f-4d36-b323-224184e4dcc2"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": null
+          }
+        ]
+      }
+    },
+    "props": {}
+  },
+  "events": []
+}

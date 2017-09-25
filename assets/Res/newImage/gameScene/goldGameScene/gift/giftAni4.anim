@@ -1,0 +1,61 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "giftAni4",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.5,
+  "sample": 10,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "8996fad1-1e3c-41ae-ae93-4b744ca25e31"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "6ad469d6-efe3-463a-bbab-4ecbb62f0e98"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "84cf62be-9888-4c50-bb8d-9a644743890a"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "4dbe25bf-b752-4720-a76d-9c4a686dd479"
+            }
+          },
+          {
+            "frame": 0.4,
+            "value": {
+              "__uuid__": "5021b52b-ba72-4f3a-8d83-9ffdd5742f77"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 255
+        },
+        {
+          "frame": 0.5,
+          "value": 0
+        }
+      ]
+    }
+  },
+  "events": []
+}

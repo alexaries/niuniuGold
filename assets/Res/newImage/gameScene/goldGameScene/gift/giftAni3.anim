@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "giftAni3",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.35,
+  "sample": 20,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "e5043cf8-b7e4-4617-b772-99e3bd0623f7"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "8c2b10d2-941e-4e82-b57b-936692bbe4e2"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "3cde0103-5519-472d-9fa3-66395dca4caa"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "7f772b64-1ad0-44ba-a29d-456651c6eb66"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
