@@ -47,7 +47,7 @@ cc.Class({
                 {   
                     console.log("已经转过了不能再转了!!!!!!");
                 }else{
-                    if(this.sceneType == "game")
+                    if(self.sceneType == "game")
                     {
                         gameData.gameMainScene.gameRotatyCount -= 5;
                     }

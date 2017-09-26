@@ -1,4 +1,5 @@
 var goldConf = require("goldConf");
+var payConf = require("payConf");
 cc.Class({
     extends: cc.Component,
 
@@ -16,6 +17,8 @@ cc.Class({
 
     onInit:function(){
         this.diamondNode = this.node.getChildByName("diamondNode");
+        this.initDiamondLayer();
+
         this.goldNode = this.node.getChildByName("goldNode");
 
         this.isInit = true;
@@ -23,8 +26,9 @@ cc.Class({
 
     onBtnDiamondClick:function(event,customEventData){
         var index = parseInt(customEventData);
-        console.log("onBtnDiamondClick===",index);
-        jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "payTest", "(I)V", index);
+        this.parent.payLayer.showWithIndex(index);
+        // console.log("onBtnDiamondClick===",index);
+        // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "payTest", "(I)V", index);
     },
 
     onBtnGoldClick:function(event,customEventData){
@@ -45,6 +49,14 @@ cc.Class({
 
     onBtnMaskClick:function(){
         this.hideLayer();
+    },
+
+    initDiamondLayer:function(){
+        for(var i=0;i<6;i++)
+        {
+            this.diamondNode.getChildByName("diamondItem"+i).getChildByName("costNum").getComponent("cc.Label").string = payConf[i].payNum/100;
+            this.diamondNode.getChildByName("diamondItem"+i).getChildByName("itemNum").getComponent("cc.Label").string = payConf[i].diamondNum;
+        }
     },
 
     showLayer:function(type){  //0:diamond;1:gold

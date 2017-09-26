@@ -535,15 +535,11 @@ cc.Class({
         if(betType == 0)
             curBetNum = 1;
         else if(betType == 1)
-            curBetNum = 5;
+            curBetNum = 2;
         else if(betType == 2)
-            curBetNum = 10;
+            curBetNum = 3;
         else if(betType == 3){
-            console.log("????@@@@@@@")
-
-            curBetNum = this.betNumMax - this.myBetNum;
-
-            console.log(curBetNum)
+            curBetNum = 4;
         }
 
         var self = this;
@@ -1550,15 +1546,15 @@ cc.Class({
                 pomelo.clientSend("useCmd",{"cmd" : "robBanker","num" : 0});
                 break;
             case 11:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : this.mpqzBetNum1});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 1});
                 break;
             case 12:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : this.mpqzBetNum2});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 2});
                 break;
             case 13:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : this.mpqzBetNum3});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 3});
             case 14:
-                pomelo.clientSend("useCmd",{"cmd" : "allIn"});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 4});
                 break;
         }
         this.robBtnBox.active = false;

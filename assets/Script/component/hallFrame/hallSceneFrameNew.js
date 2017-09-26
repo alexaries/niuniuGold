@@ -121,6 +121,11 @@ cc.Class({
 
         if(confige.signInAward != -1)
             this.checkSignInAward();
+
+        this.payLayer = this.layerNode.getChildByName("payLayer").getComponent("payLayer");
+        this.payLayer.onInit();
+        this.payLayer.parent = this;
+
         this.shopLayer = this.layerNode.getChildByName("shopLayer").getComponent("shopLayer");
         this.shopLayer.onInit();
         this.shopLayer.parent = this;
@@ -273,6 +278,7 @@ cc.Class({
             }
         };
         this.schedule(callFunc2,3);
+
     },
     
     start:function(){
@@ -593,9 +599,9 @@ cc.Class({
 
         if(type == 1)           //创建成功,隐藏界面
         {
-            this.createLayer.hideLayer();
+            this.friendModeLayer.hideCreateLayer();
         }else if(type == 2){    //加入失败,清空ID
-            this.joinRoomLayer.cleanRoomId();
+            this.friendModeLayer.cleanRoomId();
         }
     }, 
 
@@ -899,4 +905,30 @@ cc.Class({
     hideBeGiveLayer:function(){
         this.beGiveLayer.active = false;
     },
+
+    getPayOrder:function(){
+        var self = this;
+        var xmlHttp = this.createXMLHttpRequest();
+        var game_uid = confige.userInfo.uid;
+        var amount = 600; 
+        var httpCallback = function(){
+            var loginJson = JSON.parse(xmlHttp.responseText);
+            console.log("getPayCallBack@@@@@");
+            console.log(loginJson);
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "payOrderCallBack@@@@@@@@@@@@@@");
+        };
+
+        this.scheduleOnce(function() {
+            var url = "http://pay.5d8d.com/gold_admin.php/api/getOrderInfo?game_uid=GAME_UID&amount=AMOUNT"
+            url = url.replace("GAME_UID", game_uid);
+            url = url.replace("AMOUNT", amount);
+            
+            xmlHttp.onreadystatechange = httpCallback;
+            xmlHttp.open("GET", url, true);// 异步处理返回   
+            xmlHttp.setRequestHeader("Content-Type",  
+                    "application/x-www-form-urlencoded;");  
+            xmlHttp.send();
+        }, 0.1);
+    },
+
 });
