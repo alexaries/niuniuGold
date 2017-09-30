@@ -371,7 +371,7 @@ cc.Class({
 
     onBtnTravelerClicked:function(){
         console.log("fuck click travler");
-        this.editBox.active = true;
+        // this.editBox.active = true;
         // confige.loginType = 0;
 
         
@@ -382,12 +382,12 @@ cc.Class({
         },3)
 
         // pomelo.clientLogin("");
-        // if(cc.sys.localStorage.getItem("lastLoginUid") == 0)
-        // {
-        //     pomelo.clientLogin("");
-        // }else{
-        //     pomelo.clientLogin(cc.sys.localStorage.getItem("lastLoginUid"));
-        // }
+        if(cc.sys.localStorage.getItem("lastLoginUid") == 0)
+        {
+            pomelo.clientLogin("");
+        }else{
+            pomelo.clientLogin(cc.sys.localStorage.getItem("lastLoginUid"));
+        }
     },
     
     onBtnUserKnowClicked:function(){

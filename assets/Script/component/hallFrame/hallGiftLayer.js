@@ -23,6 +23,7 @@ cc.Class({
         this.sendNumLabel = this.node.getChildByName("sendNumNode").getChildByName("label").getComponent("cc.EditBox");
         this.sendCostLabel = this.node.getChildByName("sendCostNode").getChildByName("label").getComponent("cc.Label");
         this.btnSendGift = this.node.getChildByName("btnSendGift").getComponent("cc.Button");
+        this.toggleSelect = this.node.getChildByName("giftList").getChildByName("toggleSelect");
         this.resetData();
 
         this.isInit = true;
@@ -79,6 +80,9 @@ cc.Class({
         this.count = 0;
         this.sendNumLabel.string = 1;
         this.sendCostLabel.string = 1 * give[this.selectID].gold;
+        for(var i=1;i<6;i++)
+            this.toggleSelect.getChildByName("toggle"+i).getComponent("cc.Toggle").isChecked = false;
+        this.toggleSelect.getChildByName("toggle6").getComponent("cc.Toggle").isChecked = true;
     },
 
     btnSendListClick:function(){
@@ -98,6 +102,7 @@ cc.Class({
                 self.parent.showTips("赠送成功");
                 self.hideLayer();
                 self.parent.userInfoLayer.hideLayer();
+                self.parent.otherInfoLayer.hideLayer();
             }else{
                 if(data.code){
                     console.log("code ===== "+ data.code);

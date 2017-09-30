@@ -179,7 +179,7 @@ cc.Class({
                 jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "SetVoicePath", "(Ljava/lang/String;)V", voicePath);
             }else if(confige.curUsePlatform == 2){
                 console.log("231");
-                // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceSetPath:",voicePath);
+                jsb.reflection.callStaticMethod("JSCallOC", "GVoiceSetPath:",voicePath);
             }
             // confige.GVoiceCall.openListen();
 

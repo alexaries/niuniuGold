@@ -630,11 +630,11 @@ cc.Class({
     },
 
     statusChange:function(index){
-        if(index === 1)
-        {
-            this.showGameStatusNew(2,this.time_betting);
-        }
-        else if(index === 2)
+        // if(index === 1)
+        // {
+            // this.showGameStatusNew(2,this.time_betting);
+        // }
+        if(index === 2)
         {
             this.showGameStatusNew(3,0);
             this.timerItem.setTime(this.time_settlement);

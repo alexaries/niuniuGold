@@ -11956,7 +11956,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 204.55,
+      "width": 200,
       "height": 45.45
     },
     "_children": [],
@@ -11994,7 +11994,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 40,
+    "_actualFontSize": 39,
     "_fontSize": 40,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -12004,9 +12004,9 @@
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$string": "9999999",
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 1,
     "_N$verticalAlign": 0,
-    "_N$overflow": 0
+    "_N$overflow": 2
   },
   {
     "__type__": "cc.Node",
@@ -12404,7 +12404,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 29.22,
+      "width": 200,
       "height": 45.45
     },
     "_children": [],
@@ -12442,7 +12442,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 40,
+    "_actualFontSize": 39,
     "_fontSize": 40,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -12452,9 +12452,9 @@
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_N$string": "0",
-    "_N$horizontalAlign": 0,
+    "_N$horizontalAlign": 1,
     "_N$verticalAlign": 0,
-    "_N$overflow": 0
+    "_N$overflow": 2
   },
   {
     "__type__": "cc.Node",

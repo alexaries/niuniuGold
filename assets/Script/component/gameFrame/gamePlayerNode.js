@@ -16,6 +16,12 @@ cc.Class({
     },
     
     onInit:function(){
+        this.testHead = {};
+        this.testHead[0] = "http://wx.qlogo.cn/mmopen/vi_32/rA509nVwoSy0WtdjlyT4OWZZFDjEAQKfxuWqOwed7NzBVdhyxiaHaCjsG3J7HTdVD42uqybISzVGgDxh0lRSk2A/0";
+        this.testHead[1] = "http://pay.5d8d.com/Public/head_img/6788077ded15d872322c096cdae89a34.jpg"
+        this.testHead[2] = "http://pay.5d8d.com/Public/head_img/e7b5b63c1ad77ab5b3c7731752efb8a0.jpg"
+        this.testHead[3] = "http://pay.5d8d.com/Public/head_img/d41d8cd98f00b204e9800998ecf8427e.jpg"
+        this.testHead[4] = "http://pay.5d8d.com/Public/head_img/f97ea9018b7aeefc84436ae326c87c73.jpg"
         gameData.gamePlayerNode = this;
         this.meChair = 0;
         this.noShowCardCount = 0;       //当前有多少人开牌
