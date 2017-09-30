@@ -32,7 +32,7 @@ cc.Class({
         var index = parseInt(customEventData);
         this.selectID = index;
         this.sendNumLabel.string = 1;
-        this.sendCostLabel.string = parseInt(this.sendNumLabel.string) * give[this.selectID].gold;
+        this.sendCostLabel.string = 1 * give[this.selectID].gold;
     },
 
     showLayer:function(curFindID){
@@ -74,11 +74,11 @@ cc.Class({
         this.sendCostLabel.string = "";
 
         this.btnSendGift.interactable = false;
-        this.selectID = 6;
+        this.selectID = "6";
         this.targetID = 0;
         this.count = 0;
         this.sendNumLabel.string = 1;
-        this.sendCostLabel.string = parseInt(this.sendNumLabel.string) * give[this.selectID].gold;
+        this.sendCostLabel.string = 1 * give[this.selectID].gold;
     },
 
     btnSendListClick:function(){

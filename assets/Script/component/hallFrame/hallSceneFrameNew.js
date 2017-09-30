@@ -156,41 +156,41 @@ cc.Class({
         this.mailLayer.onInit();
         this.mailLayer.parent = this;
 
-        if(confige.userInfo.refreshList)
-            {
-                var myDate = new Date();
-                var month = myDate.getMonth();
-                var date = myDate.getDate();
-                if(month < 10){
-                    month = "0"+month;
-                }
-                if(date < 10){
-                    date = "0"+date;
-                }
-                var dateString = parseInt(""+myDate.getFullYear() + month + date);
-                var refreshDay = confige.userInfo.refreshList.bankruptTime;
-                var refreshCount = confige.userInfo.refreshList.bankruptTimeCount;
-                if(dateString < refreshDay)
-                    console.log("今日领取过低保！！！！！");
-                else{
-                    console.log("可以领取低保！！！！！");
-                    if(confige.curGold <= 2000)
-                    {
-                        var self = this;
-                        pomelo.request("connector.award.bankruptGold",null, function(data) {
-                            console.log(data);
-                            if(data.flag == true)
-                            {   
-                                self.rewardLayer.showOrinal(data.value);
-                            }else{
-                                console.log("已经不能再领取了!!!!!!");
-                                if(confige.curGold < 500)
-                                    self.shopLayer.showLayer(1);
-                            }
-                        });  
-                    };
-                }
-            }
+        // if(confige.userInfo.refreshList)
+        //     {
+        //         var myDate = new Date();
+        //         var month = myDate.getMonth();
+        //         var date = myDate.getDate();
+        //         if(month < 10){
+        //             month = "0"+month;
+        //         }
+        //         if(date < 10){
+        //             date = "0"+date;
+        //         }
+        //         var dateString = parseInt(""+myDate.getFullYear() + month + date);
+        //         var refreshDay = confige.userInfo.refreshList.bankruptTime;
+        //         var refreshCount = confige.userInfo.refreshList.bankruptTimeCount;
+        //         if(dateString < refreshDay)
+        //             console.log("今日领取过低保！！！！！");
+        //         else{
+        //             console.log("可以领取低保！！！！！");
+        //             if(confige.curGold <= 2000)
+        //             {
+        //                 var self = this;
+        //                 pomelo.request("connector.award.bankruptGold",null, function(data) {
+        //                     console.log(data);
+        //                     if(data.flag == true)
+        //                     {   
+        //                         self.rewardLayer.showOrinal(data.value);
+        //                     }else{
+        //                         console.log("已经不能再领取了!!!!!!");
+        //                         if(confige.curGold < 500)
+        //                             self.shopLayer.showLayer(1);
+        //                     }
+        //                 });  
+        //             };
+        //         }
+        //     }
         
         // this.rewardLayer.showAnimation();
 
@@ -948,7 +948,6 @@ cc.Class({
             var loginJson = JSON.parse(xmlHttp.responseText);
             console.log("getPayCallBack@@@@@");
             console.log(loginJson);
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "payOrderCallBack@@@@@@@@@@@@@@");
         };
 
         this.scheduleOnce(function() {

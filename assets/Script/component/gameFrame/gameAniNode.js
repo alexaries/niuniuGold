@@ -468,7 +468,7 @@ cc.Class({
                     cb(parseInt(0.2*moveStep));
             }
         };
-        this.schedule(this.bankerAniSchedule,0.2);
+        this.schedule(this.bankerAniSchedule,0.2,moveStep);
         this.bankerAniSchedule();
         // this.resetBankerAni();
     },

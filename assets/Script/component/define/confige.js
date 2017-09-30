@@ -24,7 +24,7 @@ var cfg = {
     sex : -1,
     playerId : -1
 	},
-
+  testTime : 0,
   useNewMode : true,
   host : 0,
   port : 0,
@@ -157,7 +157,7 @@ cfg.roomLimit = {
   limitMaxRate : 1000
 };
 
-cfg.curVersion = "1.05";
+cfg.curVersion = "1.09";
 cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。有事咨询客服，客服微信号：YCYX1818";
 cfg.versionCheck = "1.2.024&KSAJDGFKJASHDFGASHDGAFDGH";
 cfg.resetGameData = function(){
@@ -279,7 +279,8 @@ cfg.CallGVoicePoll = function(){
     if(cfg.curUsePlatform == 1)
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoicePoll", "()V");
     else
-      jsb.reflection.callStaticMethod("JSCallOC","GVoicePoll");
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC","GVoicePoll");
 };
 
 cfg.GVoiceCall = {
@@ -291,7 +292,8 @@ cfg.GVoiceCall = {
         if(cfg.curUsePlatform == 1){
           jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceInit", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", appid, appkey, openid);
         }else if(cfg.curUsePlatform == 2){
-          jsb.reflection.callStaticMethod("JSCallOC", "openGvoiceEngineAppID:andKey:andOpenID:", appid, appkey, openid);  
+          console.log("321312")
+          // jsb.reflection.callStaticMethod("JSCallOC", "openGvoiceEngineAppID:andKey:andOpenID:", appid, appkey, openid);  
         }
         cfg.GVoiceIsInit = true;
     }
@@ -301,7 +303,8 @@ cfg.GVoiceCall = {
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceJoinRoom", "(Ljava/lang/String;)V", roomID);
     }else if(cfg.curUsePlatform == 2){
-      jsb.reflection.callStaticMethod("JSCallOC", "GVoiceJoinRoom:", roomID);
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceJoinRoom:", roomID);
     }
   },
 
@@ -309,7 +312,8 @@ cfg.GVoiceCall = {
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceQuitRoom", "(Ljava/lang/String;)V", roomID);
     }else if(cfg.curUsePlatform == 2){
-      jsb.reflection.callStaticMethod("JSCallOC", "GVoiceQuitRoom:", roomID);
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceQuitRoom:", roomID);
     }
   },
 
@@ -317,7 +321,8 @@ cfg.GVoiceCall = {
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceListenOpen", "()V");
     }else if(cfg.curUsePlatform == 2){
-      jsb.reflection.callStaticMethod("JSCallOC", "GVoiceListenOpen");
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceListenOpen");
     }
   },
 
@@ -325,7 +330,8 @@ cfg.GVoiceCall = {
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceListenClose", "()V");
     }else if(cfg.curUsePlatform == 2){
-      jsb.reflection.callStaticMethod("JSCallOC", "GVoiceListenClose");
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceListenClose");
     }
     
   },
@@ -334,7 +340,8 @@ cfg.GVoiceCall = {
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceMicOpen", "()V");
     }else if(cfg.curUsePlatform == 2){
-      jsb.reflection.callStaticMethod("JSCallOC", "GVoiceMicOpen");
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceMicOpen");
     }
   },
 
@@ -342,7 +349,8 @@ cfg.GVoiceCall = {
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceMicClose", "(I)V",tag);
     }else if(cfg.curUsePlatform == 2){
-      jsb.reflection.callStaticMethod("JSCallOC", "GVoiceMicClose");
+      console.log("321312")
+      // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceMicClose");
     }
   }
 };

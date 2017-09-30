@@ -75,7 +75,7 @@ cc.Class({
 
             sendType.string = curData.title;
             sendNick.string = curData.addresser;
-            sendTime.string = "发件事件: "+confige.getDateDay(curData.time)+"  "+confige.getDateTime(curData.time);
+            sendTime.string = "发件时间: "+confige.getDateDay(curData.time)+"  "+confige.getDateTime(curData.time);
             if(curData.addresser == "系统管理员")
                 sendIco.spriteFrame = this.frameSys;
 
@@ -87,11 +87,11 @@ cc.Class({
                 self.showGetlayer(getCallBack.data);
                 // self.joinRoom(joinCallBack.id);
             };
-            getCallBack.data = curData;
+            getCallBack.data = confige.curMailData[i];
             getCallBack.node = newMailItem;
             getCallBack.id = i;
-            getBtn.node.on(cc.Node.EventType.TOUCH_START, getCallBack, self);
-            getBtn2.node.on(cc.Node.EventType.TOUCH_START, getCallBack, self);
+            getBtn.node.on(cc.Node.EventType.TOUCH_END, getCallBack, self);
+            getBtn2.node.on(cc.Node.EventType.TOUCH_END, getCallBack, self);
             if(curData.gainState == false)
             {
                 // getBtnNode.active = true;
@@ -102,6 +102,8 @@ cc.Class({
             if(curData.readState == false)
                 mailMask.active = true;
         }
+        console.log("height ====== ",(50 + 100 * (count+1)));
+        this.mailViewContent.height = 50 + 100 * (count+1);
     },
     
     showLayer:function(){
@@ -138,6 +140,8 @@ cc.Class({
     },
 
     showGetlayer:function(data){
+        console.log("showGetlayer@@@@@@@@@");
+        console.log(data);
         // if(data.addresser == "系统管理员")
             // this.getLayerIco.spriteFrame = this.frameSys;
         // else
@@ -152,7 +156,7 @@ cc.Class({
             this.getLayerBtn.active = false;
             this.getLayerIcoNode.active = false;
         }else{
-            this.getLayerBtn.active = true;
+            // this.getLayerBtn.active = true;
             this.getLayerIcoNode.active = true;
         }
         this.getLayer.active = true;

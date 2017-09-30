@@ -565,9 +565,9 @@ pomelo.goldQuite = function() {
     );           
 };
 
-confige.host = "update.5d8d.com";    //测试外网
+// confige.host = "update.5d8d.com";    //测试外网
 // confige.host = "nnapi.5d8d.com";     //运营外网
-// confige.host = "192.168.1.65";          //内网
+confige.host = "192.168.1.65";          //内网
 pomelo.clientLogin = function(uid,clientLogintoken) {
     console.log("pomelo try to login!!!!!!");
     var route = 'gate.gateHandler.queryEntry';
@@ -633,6 +633,7 @@ pomelo.loginWithHostAndPort = function(host, port, uid, token, code){
                 if(pomelo.connectCount > 0)
                 {
                     pomelo.connectCount --;
+                    pomelo.disconnect();
                     pomelo.reConnet();
                 }else{
                     console.log("强制关闭游戏,停止重连")
@@ -777,13 +778,13 @@ pomelo.clientSaid = function(){
 }
 
 pomelo.bindWX = function(openId,token){
-    jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "pomelo.bindWX");
+    // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "pomelo.bindWX");
     pomelo.request("connector.account.bindWeiXinUnionid",{"openId" : openId, "token" : token}, function(data) {
         console.log("bindWeiXinUnionid@@@@@@@")
         console.log(data);
-        jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "pomelo.bindWX.callBack");
+        // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "pomelo.bindWX.callBack");
         if(data.flag == true){
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "pomelo.bindWX.callBackTrue");
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "pomelo.bindWX.callBackTrue");
             cc.sys.localStorage.setItem('lastLoginType', "wechat");
             cc.game.restart();
         }

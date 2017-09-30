@@ -756,7 +756,8 @@ cc.Class({
         this.yuyinBtn = this.node.getChildByName("btn_yuyin");
         if(confige.curUsePlatform == 1 || confige.curUsePlatform == 2)
         {
-            confige.GVoiceCall.init(""+confige.userInfo.uid);//(confige.roomData.roomId*10 + this.meChair));
+            for(var i=0;i<3;i++)
+                confige.GVoiceCall.init(""+confige.userInfo.uid);//(confige.roomData.roomId*10 + this.meChair));
             confige.GVoiceRoomID = "" + confige.roomData.roomId;
             confige.GVoiceCall.joinRoom(confige.GVoiceRoomID);
             var voicePath = jsb.fileUtils.getWritablePath() + 'GVoice/';

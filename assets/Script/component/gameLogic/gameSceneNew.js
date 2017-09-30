@@ -8,9 +8,6 @@ cc.Class({
     },
 
     onDestory:function(){
-        console.log("gameScene onDestory!!!!!!")
-        if(confige.curUsePlatform == 1)
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "gameScene onDestory!!!!!!");
     },
 
     onLoad: function () {

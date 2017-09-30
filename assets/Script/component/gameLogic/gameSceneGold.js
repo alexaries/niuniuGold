@@ -12,9 +12,6 @@ cc.Class({
     },
 
     onDestory:function(){
-        console.log("gameScene onDestory!!!!!!")
-        if(confige.curUsePlatform == 1)
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "gameScene onDestory!!!!!!");
     },
 
     onLoad: function () {
@@ -120,7 +117,7 @@ cc.Class({
         this.time_settlement = Math.ceil(confige.roomData.TID_SETTLEMENT/1000);
         this.time_waitting = Math.ceil(confige.roomData.TID_WAITING_TIME/1000);
         this.meChair = 0;
-        this.curBankerChair = -1;
+        this.curBankerChair = 0;
 
         this.isMingCardQZ = false;
         
@@ -431,7 +428,8 @@ cc.Class({
         if(this.joinState == 1001)
         {
             this.gameInfoNode.changeDeskBtnNode.opacity = 255;
-            this.gameInfoNode.changeDeskBtn.interactable = true;
+            if(confige.isGoldMode == true)
+                this.gameInfoNode.changeDeskBtn.interactable = true;
             this.beginTimeStamp = Date.parse(new Date()) - this.beginTimeStamp;
             var newTime = Math.ceil((confige.roomData.curTime - confige.roomData.initialTime)/1000);
             var curShowTime = this.time_waitting - newTime - this.beginTimeStamp;
@@ -771,11 +769,11 @@ cc.Class({
             console.log("onServerBeginBetting444444");
         };
         this.gameStatusNew.active = false;
-
         this.gameAniNode.runBankerAni(confige.getCurChair(data.banker),callFunc);
     },
 
     onServerDealCard:function(handCards){
+        this.gameStatusNew.active = false;
         this.hideRobBtn();
         this.hideGameStatus();
         for(var i in handCards)
@@ -938,7 +936,8 @@ cc.Class({
         this.gameBGNode.scorePool.active = false;
         this.canChangeDesk = true;
         this.gameInfoNode.changeDeskBtnNode.opacity = 255;
-        this.gameInfoNode.changeDeskBtn.interactable = true;
+        if(confige.isGoldMode == true)
+            this.gameInfoNode.changeDeskBtn.interactable = true;
         // for(var i in confige.roomPlayer)
         // {
         //     if(confige.roomPlayer[i].isActive == true)
@@ -1194,7 +1193,8 @@ cc.Class({
                     this.gamePlayerNode.lightBgList[this.curBankerChair].active = false;
                 }
                 this.gameInfoNode.changeDeskBtnNode.opacity = 255;
-                this.gameInfoNode.changeDeskBtn.interactable = true;
+                if(confige.isGoldMode == true)
+                    this.gameInfoNode.changeDeskBtn.interactable = true;
                 break;
             case 1002:      //下注阶段
                 // this.statusChange(1);
@@ -1377,8 +1377,10 @@ cc.Class({
     onNewGameStart:function(){
         this.hideRobBtn();
         this.hideBetBtn();
-        if(this.needToRefresh == true)
-            this.gameInfoNode.btnClickRefresh();
+        if(this.needToRefresh == true){
+            console.log("@@@@@@@@@@@@@@@@@@@@@!!!!!!!!!@@@@@@!!!!!!@@@@@!@!@!@!@##############@#!@#@!#!@#!@#!@#!@#!@#!@#");
+            // this.gameInfoNode.btnClickRefresh();
+        }
         this.goldReady();
 
         for(var i in confige.roomPlayer)
@@ -1892,8 +1894,13 @@ cc.Class({
     },
 
     showBankerAfterAni:function(){
-        this.gamePlayerNode.playerList[confige.getCurChair(this.curBankerChair)].getChildByName("banker").active = true;
-        this.gamePlayerNode.lightBgList[confige.getCurChair(this.curBankerChair)].active = true;
+        if(this.gamePlayerNode.playerList[confige.getCurChair(this.curBankerChair)])
+        {
+            this.gamePlayerNode.playerList[confige.getCurChair(this.curBankerChair)].getChildByName("banker").active = true;
+            this.gamePlayerNode.lightBgList[confige.getCurChair(this.curBankerChair)].active = true;
+        }else{
+            console.log("@@@@@@@@@@@@@@@@e13123123123123123131312313123@@@@@@@@@@@@@@@@3131231231231231231232313123123123123ds3312312@@@@@@@@@@@@3123123313123");
+        }
     },
 
     takeOutBasic:function(curRate){
@@ -1903,6 +1910,7 @@ cc.Class({
             {
                 this.gamePlayerNode.playerScoreList[i] -= curRate;
                 this.gamePlayerNode.playerInfoList[confige.getCurChair(i)].setScore(this.gamePlayerNode.playerScoreList[i]);
+                this.gameAniNode.showScoreAni(confige.getCurChair(i),-curRate);
             }
         }
     },

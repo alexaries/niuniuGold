@@ -65,6 +65,7 @@ cc.Class({
 
                 newSendItem.getComponent("cc.Label").string = curData.content;
             }
+            this.content1.height = 20 + 30 * (count1+1);
         }
 
         if(data.receiveRecord.length > 0)
@@ -82,6 +83,7 @@ cc.Class({
 
                 newSendItem.getComponent("cc.Label").string = curData.content;
             }
+            this.content2.height = 50 + 30 * (count2+1);
         }
         
     },

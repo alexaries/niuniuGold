@@ -11,9 +11,6 @@ cc.Class({
     },
 
     onDestory:function(){
-        console.log("gameInfoNode onDestory!!!!!!")
-        if(confige.curUsePlatform == 1)
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "gameInfoNode onDestory!!!!!!");
     },
 
     onLoad: function () {
@@ -181,7 +178,8 @@ cc.Class({
             if(confige.curUsePlatform == 1){
                 jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "SetVoicePath", "(Ljava/lang/String;)V", voicePath);
             }else if(confige.curUsePlatform == 2){
-                jsb.reflection.callStaticMethod("JSCallOC", "GVoiceSetPath:",voicePath);
+                console.log("231");
+                // jsb.reflection.callStaticMethod("JSCallOC", "GVoiceSetPath:",voicePath);
             }
             // confige.GVoiceCall.openListen();
 
@@ -913,14 +911,22 @@ cc.Class({
                     var changeLevel = 0;
                     if(gameData.gameMainScene.consumeType == "gold")
                     {
-                        if(curScore >= confige.roomLimit.goldBasic[2]*confige.roomLimit.limitMinRate)
+                        if(curScore >= confige.roomLimit.goldBasic[4]*confige.roomLimit.limitMinRate)
+                            changeLevel = 5;
+                        if(curScore >= confige.roomLimit.goldBasic[3]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.goldBasic[3]*confige.roomLimit.limitMaxRate)
+                            changeLevel = 4;
+                        if(curScore >= confige.roomLimit.goldBasic[2]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.goldBasic[2]*confige.roomLimit.limitMaxRate)
                             changeLevel = 3;
                         if(curScore >= confige.roomLimit.goldBasic[1]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.goldBasic[1]*confige.roomLimit.limitMaxRate)
                             changeLevel = 2;
                         if(curScore >= confige.roomLimit.goldBasic[0]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.goldBasic[0]*confige.roomLimit.limitMaxRate)
                             changeLevel = 1;
                     }else{
-                        if(curScore >= confige.roomLimit.diamondBasic[2]*confige.roomLimit.limitMinRate)
+                        if(curScore >= confige.roomLimit.diamondBasic[4]*confige.roomLimit.limitMinRate)
+                            changeLevel = 5;
+                        if(curScore >= confige.roomLimit.diamondBasic[3]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.diamondBasic[3]*confige.roomLimit.limitMaxRate)
+                            changeLevel = 4;
+                        if(curScore >= confige.roomLimit.diamondBasic[2]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.diamondBasic[2]*confige.roomLimit.limitMaxRate)
                             changeLevel = 3;
                         if(curScore >= confige.roomLimit.diamondBasic[1]*confige.roomLimit.limitMinRate && curScore <= confige.roomLimit.diamondBasic[1]*confige.roomLimit.limitMaxRate)
                             changeLevel = 2;

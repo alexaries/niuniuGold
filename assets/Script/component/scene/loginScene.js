@@ -371,11 +371,17 @@ cc.Class({
 
     onBtnTravelerClicked:function(){
         console.log("fuck click travler");
-        // this.editBox.active = true;
+        this.editBox.active = true;
         // confige.loginType = 0;
 
+        
+        this.btn_login1.interactable = false;
+        var self = this;
+        this.scheduleOnce(function(){
+            self.btn_login1.interactable = true;
+        },3)
 
-        pomelo.clientLogin("");
+        // pomelo.clientLogin("");
         // if(cc.sys.localStorage.getItem("lastLoginUid") == 0)
         // {
         //     pomelo.clientLogin("");
@@ -470,6 +476,11 @@ cc.Class({
                 this.wxRefreshLogin();
             }
         }
+        this.btn_login2.interactable = false;
+        var self = this;
+        this.scheduleOnce(function(){
+            self.btn_login2.interactable = true;
+        },3)
     },
 
     wxLoginJavaCall:function(code){
