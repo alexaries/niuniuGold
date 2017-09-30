@@ -34,16 +34,24 @@ cc.Class({
         this.gameMode = confige.roomData.gameMode;
         this.bankerMode = confige.roomData.bankerMode;
         
+        if(confige.roomData.initiativeFlag == true)
+        {
+            this.roomInfo = this.node.getChildByName("roomData2");
+        }else{
+            this.roomInfo = this.node.getChildByName("roomData1");
+        }
+        this.roomInfo.active = true;
+
         this.roomCurTime = confige.roomData.gameNumber;
         this.roomMaxTime = confige.roomData.maxGameNumber;  
-        this.roomInfo = this.node.getChildByName("roomData");
+        
         this.roomID = this.roomInfo.getChildByName("roomID").getComponent("cc.Label");
         this.roomMode = this.roomInfo.getChildByName("roomMode").getComponent("cc.Label");
         this.roomTime = this.roomInfo.getChildByName("roomTime").getComponent("cc.Label");
         this.roomTimeNode = this.roomInfo.getChildByName("nowTime");
         this.roomBasicLabel = this.roomInfo.getChildByName("roomBasic").getComponent("cc.Label");
-        // this.roomBasicLabel.string = "房间底分:"+confige.roomData.rate;
-        this.roomBasicLabel.string = confige.goldType[confige.roomData.roomType];
+        this.roomBasicLabel.string = "房间倍率:"+confige.roomData.rate;
+        // this.roomBasicLabel.string = confige.goldType[confige.roomData.roomType];
         gameData.gameMainScene.basicScore = confige.roomData.rate;
         
         this.roomID.string = "房间号:" + confige.roomData.roomId;
@@ -77,13 +85,15 @@ cc.Class({
         this.roomTime.string = "第" + this.roomCurTime + "/" + this.roomMaxTime + "局";
 
         this.tipsBox = this.node.getChildByName("tipsBox");
+        this.tipsBox2 = this.node.getChildByName("tipsBox2");
         this.tipsLabel = this.tipsBox.getChildByName("tips").getComponent("cc.Label");
 
         this.btn_inviteFriend = this.node.getChildByName("btn_inviteFriend");
-        if(confige.isGoldMode == true)
-            this.btn_inviteFriend.active = false;
-        else
+        if(confige.roomData.initiativeFlag == true)
             this.btn_inviteFriend.active = true;
+        else
+            this.btn_inviteFriend.active = false;
+
 
         this.btnShowFunc = this.node.getChildByName("btnShowFunc");
         this.funcNodeShow = false;
@@ -92,6 +102,8 @@ cc.Class({
         this.changeDeskBtnNode = this.funcNode.getChildByName("changeDesk");
         this.changeDeskBtn = this.changeDeskBtnNode.getComponent("cc.Button");
         this.changeDeskBtnNode.opacity = 130;
+
+        this.matchingNode = this.node.getChildByName("matchingNode");
         // var timeLabel = this.roomInfo.getChildByName("nowTime").getComponent("cc.Label");
         // var refleshTime = function(){
         //     var timeSting = "";
@@ -253,10 +265,10 @@ cc.Class({
             cc.eventManager.addListener(voiceListen, this.btn_quickSay);
         }else{
             this.yuyinBtn.getComponent("cc.Button").interactable = false;
-            if(confige.curUsePlatform != 3)
-                this.btn_inviteFriend.active = false;
-            else
-                this.yuyinBtn.active = false;
+            // if(confige.curUsePlatform != 3)
+            //     this.btn_inviteFriend.active = false;
+            // else
+            //     this.yuyinBtn.active = false;
         }
     },
 
@@ -393,20 +405,18 @@ cc.Class({
         var clickIndex = parseInt(customEventData);
         if(clickIndex == 0)             //show
         {
-            if(confige.isGoldMode == true)
-                this.tipsLabel.string = "是否要退出房间回到大厅！";
+            this.tipsLabel.string = "是否要退出房间回到大厅!";
             this.tipsBox.active = true;
         }else if(clickIndex == 1) {     //send
-            if(gameData.gameMainScene.gameBegin == true)
-            {
-                console.log("send finish");
-                if(confige.isGoldMode == true)
-                    pomelo.goldQuite();
-            }else{
-                console.log("send userQuit");
-                if(confige.isGoldMode == true)
-                    pomelo.goldQuite();
-            }
+            // if(confige.isGoldMode == true){
+            //     if(this.returnType == true)
+            //         confige.quitToHallScene(true);
+            //     else
+            //         pomelo.goldQuite();
+            // }
+            // else
+            //     pomelo.goldQuite();
+            pomelo.goldQuite();
             this.tipsBox.active = false;
         }else if(clickIndex == 2) {      //hide
             this.tipsBox.active = false;
@@ -495,38 +505,23 @@ cc.Class({
     btnInviteFriend:function(){
         cc.log("邀请好友");
         // var curTitle = "快打开我爱牛牛和我一块玩吧~";
-        var curTitle = "我爱牛牛,"
+        var curTitle = "欢乐赢棋牌,"
         curTitle += "房间号:" + confige.roomData.roomId;
 
         var curDes = "";
-        if(confige.roomData.gameMode == 1)
+        if(confige.roomData.roomType == "niuniu"){
             curDes += "【普通牛牛】,";
-        else if(confige.roomData.gameMode == 3)
-            curDes += "【斗公牛】,";
-        else if(confige.roomData.gameMode == 4)
-            curDes += "【通比牛牛】,";
-        else if(confige.roomData.gameMode == 6)
-            curDes += "【疯狂加倍】,";
-        else{
-            if(confige.roomData.roomType == "zhajinniu"){
-                curDes += "【炸金牛】,";
-                curDes += "底分" + confige.roomData.basic + ",";
-            }
-            else if(confige.roomData.roomType == "mingpaiqz"){
-                curDes += "【明牌抢庄】,";
-                curDes += "底分" + confige.roomData.basic + "/" + (confige.roomData.basic*2) + ",";
-            }
-        } 
-
-        curDes += confige.roomData.maxGameNumber + "局,";
+            curDes += "倍率" + confige.roomData.rate + ",";
+        }else if(confige.roomData.roomType == "mingpaiqz"){
+            curDes += "【明牌抢庄】,";
+            curDes += "倍率" + confige.roomData.rate + ",";
+        }
 
         if(confige.roomData.cardMode == 1)
             curDes += "暗牌,";
         else if(confige.roomData.cardMode == 2)
             curDes += "明牌,"
 
-        if(confige.roomData.gameMode == 1)
-        {
             if(confige.roomData.bankerMode == 1)
                 curDes += "随机抢庄,";
             else if(confige.roomData.bankerMode == 2)
@@ -535,7 +530,7 @@ cc.Class({
                 curDes += "轮流坐庄,";
             else if(confige.roomData.bankerMode == 5)
                 curDes += "牛牛坐庄,";
-        }
+
         curDes += "大家快来玩吧!";
 
         console.log(curTitle + curDes);
@@ -759,7 +754,7 @@ cc.Class({
                             var newLayer = cc.instantiate(prefabs);
                             self.layerNode1.addChild(newLayer);
                             self.userInfoLayer = newLayer.getComponent("userInfoLayer");
-                            self.userInfoLayer.showLayer();
+                            self.userInfoLayer.showLayer("user");
                             self.userInfoLayer.parent = self;
 
                             if(callBack)
@@ -768,29 +763,31 @@ cc.Class({
                         self.userInfoLayerLoad =true;
                     }
                 }else{
-                    self.userInfoLayer.showLayer();
+                    self.userInfoLayer.showLayer("user");
                     if(callBack)
                             callBack();
                 }
                 break;
             case 3:
-                if(self.gameGiftLayer == -1){
-                    if(self.gameGiftLayerLoad == false)
+                if(self.userInfoLayer == -1){
+                    if(self.userInfoLayerLoad == false)
                     {
-                        self.gameGiftLayer = this.node.getChildByName("gameGiftLayer").getComponent("gameGiftLayer");
-                        self.gameGiftLayer.showLayer();
-                        self.gameGiftLayer.parent = self;
+                        cc.loader.loadRes("prefabs/game/userInfoLayer", cc.Prefab, function (err, prefabs) {
+                            var newLayer = cc.instantiate(prefabs);
+                            self.layerNode1.addChild(newLayer);
+                            self.userInfoLayer = newLayer.getComponent("userInfoLayer");
+                            self.userInfoLayer.showLayer("other");
+                            self.userInfoLayer.parent = self;
 
-                        if(callBack)
-                            callBack();
-
-                        self.gameGiftLayerLoad = true;
+                            if(callBack)
+                                callBack();
+                        });
+                        self.userInfoLayerLoad =true;
                     }
                 }else{
-                    self.gameGiftLayer.showLayer();
-
+                    self.userInfoLayer.showLayer("other");
                     if(callBack)
-                        callBack();
+                            callBack();
                 }
                 break;
             case 4:
@@ -888,12 +885,23 @@ cc.Class({
         }
     },
 
+    btnReturnToHall:function(){
+        confige.quitToHallScene(true);
+    },
+
+    showReturn:function(){
+        this.tipsBox2.active = true;
+    },
+
     changeDesk:function(){
+        console.log("changeDesk click@@@@@@@@");
         if(gameData.gameMainScene.canChangeDesk == false)
         {
             console.log("不在空闲状态，不能换桌");
             return;
         }
+        this.matchingNode.active = true;
+        gameData.gamePlayerNode.changeDeskClean();
         var self = this;
         confige.isChangeDesk = true;
         pomelo.request("connector.entryHandler.sendData", {"code" : "userQuit"}, function(data) {

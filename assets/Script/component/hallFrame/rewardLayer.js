@@ -88,6 +88,22 @@ cc.Class({
         },1);
     },
 
+    showMail:function(goldNum,type){
+        switch(type)
+        {
+            case "gold":
+                this.rewardItemSprite.spriteFrame = this.frameList[0];
+                this.rewardString.string = "获得"+goldNum+"金币!";
+                break;
+            case "diamond":
+                this.rewardItemSprite.spriteFrame = this.frameList[2];
+                this.rewardString.string = "获得"+goldNum+"钻石!";
+                break;
+        }
+        
+        this.showAni();
+    },
+
     showOrinal:function(goldNum){
         this.rewardItemSprite.spriteFrame = this.frameList[0];
         this.rewardString.string = "获得"+goldNum+"救济金!";

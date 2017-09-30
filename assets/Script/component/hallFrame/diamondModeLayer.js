@@ -115,18 +115,27 @@ cc.Class({
             this.btnLevel3.y = this.levelPosList[2].y;
             this.btnLevel3.scale = 0;
         }
+        this.levelCanHide = true;
         this.levelNode.active = true;
-        this.levelMask.runAction(cc.fadeTo(0.3,111));
+        this.levelMask.getComponent("cc.Button").interactable = false;
+        var self = this;
+        this.levelMask.runAction(cc.sequence(cc.fadeTo(0.3,111),cc.callFunc(function(){
+            self.levelMask.getComponent("cc.Button").interactable = true;
+        })));
         this.btnLevel1.runAction(cc.spawn(cc.scaleTo(0.3,1),cc.moveTo(0.3,this.levelPosList[3].x,this.levelPosList[3].y)));
         this.btnLevel2.runAction(cc.spawn(cc.scaleTo(0.3,1),cc.moveTo(0.3,this.levelPosList[4].x,this.levelPosList[4].y)));
         this.btnLevel3.runAction(cc.spawn(cc.scaleTo(0.3,1),cc.moveTo(0.3,this.levelPosList[5].x,this.levelPosList[5].y)));
 
         this.niuniuNode.active = false;
         this.mingcardNode.active = false;
-        this.parent.btnReturn.getComponent("cc.Button").interactable = false;
+        this.parent.btnReturn.active = false;
     },
 
     hideLevelNode:function(){
+        if(this.levelCanHide == true)
+            this.levelCanHide = false;
+        else
+            return;
         var self = this;
         this.levelMask.runAction(cc.sequence(cc.fadeTo(0.3,111),cc.callFunc(function () {
             self.levelNode.active = false;
@@ -143,9 +152,10 @@ cc.Class({
             this.btnLevel2.runAction(cc.spawn(cc.scaleTo(0.3,0),cc.moveTo(0.3,this.levelPosList[2].x,this.levelPosList[2].y)));
             this.btnLevel3.runAction(cc.spawn(cc.scaleTo(0.3,0),cc.moveTo(0.3,this.levelPosList[2].x,this.levelPosList[2].y)));
         }
+
         this.btnMingcardBox.active = false;
         this.btnNiuniuBox.active = false;
-        this.parent.btnReturn.getComponent("cc.Button").interactable = true;
+        this.parent.btnReturn.active = true;
     },
     selectGameLevel:function(event, customEventData){
         console.log("changeGameType===="+customEventData);
@@ -208,8 +218,23 @@ cc.Class({
                 };
                 self.schedule(self.timeUpdate, 1);
               }
-              if(data.msg)
+              if(data.msg){
                     self.parent.showNewTips(tipsData.tipsConf[data.msg.msg]);
+                    if(data.msg.code && data.msg.code == "reconnection"){
+                        confige.curReconnectData = data.msg.data;
+                        confige.roomData = data.msg.data.roomInfo;
+                        confige.roomPlayer = data.msg.data.roomInfo.player;
+                        confige.roomId = data.msg.data.roomInfo.roomId;
+
+                            //自动跳转游戏场景并恢复数据
+                            confige.gameSceneLoadOver = false;
+                            confige.gameSceneLoadData = [];
+                            confige.isGoldMode = true;
+                            if(confige.isGoldMode == true)
+                                cc.director.loadScene('GoldScene');
+                            confige.curReconnectType = confige.ON_GAME;
+                    }
+                }
             }
         ); 
     },

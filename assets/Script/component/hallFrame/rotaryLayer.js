@@ -46,11 +46,8 @@ cc.Class({
                 if(data.flag == false)
                 {   
                     console.log("已经转过了不能再转了!!!!!!");
+                    self.hideLayer();
                 }else{
-                    if(self.sceneType == "game")
-                    {
-                        gameData.gameMainScene.gameRotatyCount -= 5;
-                    }
                     cc.sys.localStorage.setItem('canUseRotary',false);
                     self.canHide = false;
                     self.rotationTest(data.flag.index,data.flag.data);

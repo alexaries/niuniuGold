@@ -18,6 +18,8 @@ cc.Class({
     },
 
     onLoad: function () {
+        confige.gameBeginWait = false;
+        confige.goldNotEnoughOut = false;
         gameData.gameMainScene = this;
         this.consumeType = "gold";
         var newType2 = confige.roomData.roomType.substring(confige.roomData.roomType.length-7,confige.roomData.roomType.length);
@@ -32,11 +34,11 @@ cc.Class({
 
         this.lottoAwardNode = this.node.getChildByName("lottoAwardNode");
         this.lottoAwardLabel = this.lottoAwardNode.getComponent("cc.Label");
-        this.basicScore = 10;
-        this.gameRotatyCount = 0;
+        this.basicScore = confige.roomData.rate;
         confige.settleWait = false;
         confige.isChangeDesk = false;
         this.canChangeDesk = false;
+        this.needToRefresh = false;
 
         this.gameAniNode = this.node.getChildByName("gameAniNode").getComponent("gameAniNode");
         this.gameAniNode.onInit(this);
@@ -125,7 +127,7 @@ cc.Class({
         console.log("roomType======="+confige.roomData.roomType);
         
         var newType = confige.roomData.roomType.substring(0,11);
-        if(newType == "goldMingpai")
+        if(newType == "goldMingpai" || confige.roomData.roomType == "mingpaiqz")
         {
             this.isMingCardQZ = true;
             this.mingcardqzBasicType = confige.roomData.basicType;
@@ -161,6 +163,26 @@ cc.Class({
         this.betBtn3Label.string = 10*this.basicScore;
 
         this.betNumMax = 20;
+        if(this.isMingCardQZ == false)
+        {
+            
+            if(confige.roomData.basicType == 0)
+            {
+                this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 1*this.basicScore;
+                this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 2*this.basicScore;
+                this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 3*this.basicScore;
+                this.betBtnBox.getChildByName("bet4").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
+                this.betNumMax = 5;
+                this.niuniuBetType = 0;
+            }else if(confige.roomData.basicType == 1){
+                this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 1*this.basicScore;
+                this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
+                this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 10*this.basicScore;
+                this.betBtnBox.getChildByName("bet4").getChildByName("Label").getComponent("cc.Label").string = 20*this.basicScore;
+                this.betNumMax = 20;
+                this.niuniuBetType = 1;
+            }
+        }
 
         this.gameStatus = this.node.getChildByName("gameStatus");
         this.gameStatusNew = this.node.getChildByName("gameStatusNew");
@@ -409,13 +431,17 @@ cc.Class({
         if(this.joinState == 1001)
         {
             this.gameInfoNode.changeDeskBtnNode.opacity = 255;
+            this.gameInfoNode.changeDeskBtn.interactable = true;
             this.beginTimeStamp = Date.parse(new Date()) - this.beginTimeStamp;
             var newTime = Math.ceil((confige.roomData.curTime - confige.roomData.initialTime)/1000);
             var curShowTime = this.time_waitting - newTime - this.beginTimeStamp;
             console.log("timestemp===",this.beginTimeStamp);
             console.log("timestemp2222===",curShowTime);
-            if(curShowTime > 1)
-                this.showGameStatusNew(0,curShowTime);
+            if(confige.roomData.initiativeFlag == false)
+            {
+                if(curShowTime > 1)
+                    this.showGameStatusNew(0,curShowTime);
+            }
         }
     },
 
@@ -563,6 +589,8 @@ cc.Class({
     },
     
     onServerRobBanker:function(){
+        this.hideRobBtn();
+        this.hideBetBtn();
         // this.timerItem.setTime(this.time_rob);
         this.showGameStatusNew(1,this.time_rob-2);
         if(this.joinLate == false)
@@ -652,6 +680,9 @@ cc.Class({
     },
     
     onServerBeginBetting:function(data){
+        console.log("onServerBeginBetting@@@@@@@@");
+        this.hideRobBtn();
+        this.hideBetBtn();
         var bankerChair = data.banker;
         var self = this;
         var callFunc = function(bankerAniTime){
@@ -740,14 +771,12 @@ cc.Class({
             console.log("onServerBeginBetting444444");
         };
         this.gameStatusNew.active = false;
-        this.pushBanker.active = false;
-        this.unpushBanker.active = false;
-        if(this.isMingCardQZ)
-            this.robBtnBox.active = false;
+
         this.gameAniNode.runBankerAni(confige.getCurChair(data.banker),callFunc);
     },
 
     onServerDealCard:function(handCards){
+        this.hideRobBtn();
         this.hideGameStatus();
         for(var i in handCards)
         {
@@ -768,8 +797,8 @@ cc.Class({
                 this.scheduleOnce(callFunc,0.3);
         }else if(this.isMingCardQZ){
             console.log("onServerDealCard22222");
-            if(this.onReConnect == false)
-            {
+            // if(this.onReConnect == false)
+            // {
                 this.newDisCard(1);
                 if(this.joinLate == false)
                 {
@@ -782,7 +811,7 @@ cc.Class({
                     };
                     this.scheduleOnce(callFunc,0.5);
                 }
-            }
+            // }
         }else{
             console.log("onServerDealCard333333");
              if(this.joinLate == false)
@@ -808,22 +837,43 @@ cc.Class({
                 this.scheduleOnce(callFunc,0.5);
             }
         }
-        if(this.onReConnect)
-        {
-            if(this.isMingCardQZ)
+
+        if(this.onReConnect == false)
             {
-                for(var i in confige.roomPlayer)
+                this.newDisCard(1);
+                if(this.joinLate == false)
                 {
-                    if(confige.roomPlayer[i].isActive == true && confige.roomPlayer[i].isReady == true)
-                    {  
-                        var curChair = confige.getCurChair(i);
-                        this.gamePlayerNode.playerHandCardList[curChair].showCardBackWithIndex(4);
-                        if(this.joinLate == false)
-                            this.showOpenCard(2);
-                        console.log("onServerDealCard5555555555");
-                    }
+                    var callFunc = function(){
+                        if(this.gameStart == true)
+                        {
+                            if(this.joinLate == false)
+                                this.showOpenCard(2);
+                        }
+                    };
+                    this.scheduleOnce(callFunc,0.5);
                 }
             }
+            
+        if(this.onReConnect)
+        {
+            var callFunc6 = function(){
+                if(this.isMingCardQZ)
+                {
+                    for(var i in confige.roomPlayer)
+                    {
+                        if(confige.roomPlayer[i].isActive == true && confige.roomPlayer[i].isReady == true)
+                        {  
+                            var curChair = confige.getCurChair(i);
+                            this.gamePlayerNode.playerHandCardList[curChair].showCardBackWithIndex(4);
+                            if(this.joinLate == false)
+                                this.showOpenCard(2);
+                            console.log("onServerDealCard5555555555");
+                        }
+                    }
+                }
+            };
+            this.scheduleOnce(callFunc6,0.3);
+
         }
         console.log("onServerDealCard44444");
         
@@ -851,6 +901,7 @@ cc.Class({
             
         curNiuType = confige.getNiuType(handCard);
         this.gamePlayerNode.showNiuType(0, curNiuType.type);
+        this.timerItem.hideTimer();
     },
     
     showMingCard:function(cards){
@@ -880,10 +931,14 @@ cc.Class({
     },
 
     onServerSettlement:function(data){
+        this.hideBetBtn();
+        this.hideRobBtn();
+        this.needToRefresh = true;
         confige.settleWait = true;
         this.gameBGNode.scorePool.active = false;
         this.canChangeDesk = true;
         this.gameInfoNode.changeDeskBtnNode.opacity = 255;
+        this.gameInfoNode.changeDeskBtn.interactable = true;
         // for(var i in confige.roomPlayer)
         // {
         //     if(confige.roomPlayer[i].isActive == true)
@@ -989,13 +1044,6 @@ cc.Class({
                     this.gamePlayerNode.playerInfoList[confige.getCurChair(i)].setScore(this.gamePlayerNode.playerScoreList[i]);
                 }
             }
-
-            if(this.gameRotatyCount >= 5)
-            {
-                this.gameInfoNode.rotatyLayer.showLayer();
-            }
-            // if(this.gameRotatyCount > 0)
-            //     this.gameInfoNode.rotatyLayer.showLayer();
         };
         this.scheduleOnce(showSettleFunc3,3);
 
@@ -1012,6 +1060,8 @@ cc.Class({
                 pomelo.dealWithOnMessage(curInfo);
             }
             confige.settleWaitData = [];
+
+            this.needToRefresh = false;
         };
         this.scheduleOnce(showSettleFunc4,5);
         console.log("onServerSettlement 55555555");
@@ -1144,6 +1194,7 @@ cc.Class({
                     this.gamePlayerNode.lightBgList[this.curBankerChair].active = false;
                 }
                 this.gameInfoNode.changeDeskBtnNode.opacity = 255;
+                this.gameInfoNode.changeDeskBtn.interactable = true;
                 break;
             case 1002:      //下注阶段
                 // this.statusChange(1);
@@ -1221,7 +1272,7 @@ cc.Class({
        if(this.gameMode == 4)  //开船模式
             var dfsdfsdfsd = 0;
 
-        if(this.gameInfoNode.roomCurTime != 1)
+        if(this.gameInfoNode.roomCurTime != 0)
         {
             this.gameInfoNode.btn_inviteFriend.active = false;
             this.gameBegin = true;
@@ -1324,8 +1375,11 @@ cc.Class({
     },
 
     onNewGameStart:function(){
+        this.hideRobBtn();
+        this.hideBetBtn();
+        if(this.needToRefresh == true)
+            this.gameInfoNode.btnClickRefresh();
         this.goldReady();
-        this.gameRotatyCount ++;
 
         for(var i in confige.roomPlayer)
         {
@@ -1344,6 +1398,7 @@ cc.Class({
         this.meGiveUp = false;
         this.canChangeDesk = false;
         this.gameInfoNode.changeDeskBtnNode.opacity = 130;
+        this.gameInfoNode.changeDeskBtn.interactable = false;
         this.newResetCard();
         console.log("onNewGameStart");
         for(var i=0;i<6;i++)
@@ -1546,15 +1601,15 @@ cc.Class({
                 pomelo.clientSend("useCmd",{"cmd" : "robBanker","num" : 0});
                 break;
             case 11:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 1});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : this.mpqzBetNum1});
                 break;
             case 12:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 2});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : this.mpqzBetNum2});
                 break;
             case 13:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 3});
+                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : this.mpqzBetNum3});
             case 14:
-                pomelo.clientSend("useCmd",{"cmd" : "bet","bet" : 4});
+                pomelo.clientSend("useCmd",{"cmd" : "allIn"});
                 break;
         }
         this.robBtnBox.active = false;
@@ -1828,6 +1883,8 @@ cc.Class({
         };
         this.gameAniNode.scheduleOnce(callFunc,2)
         this.gameAniNode.runGameBeginAni();
+        this.timerItem.hideTimer();
+        this.gameStatusNew.active = false;
     },
 
     showGoldGameBegin:function(){
@@ -1873,6 +1930,10 @@ cc.Class({
         
     },
 
+    showLotto:function(){
+        this.gameInfoNode.rotatyLayer.showLayer();
+    },
+
     showTips:function(newTips){
         this.tipsBoxLabel.string = newTips;
         this.tipsBox.active = true;
@@ -1880,5 +1941,21 @@ cc.Class({
 
     hideTips:function(){
         this.tipsBox.active = false;
+    },
+
+    hideRobBtn:function(){
+        this.pushBanker.active = false;
+        this.unpushBanker.active = false;
+        if(this.isMingCardQZ)
+            this.robBtnBox.active = false;
+    },
+
+    hideBetBtn:function(){
+        if(this.isMingCardQZ)
+        {
+            this.robBetBtnBox.active = false;
+        }else{
+            this.betBtnBox.active = false;
+        }
     },
 });

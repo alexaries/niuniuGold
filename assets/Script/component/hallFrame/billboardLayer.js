@@ -62,8 +62,8 @@ cc.Class({
         this.modeImg21 = this.node.getChildByName("mode21");
         this.showMode = 1;
 
-        this.userInfoLayer = this.node.getChildByName("userInfoLayer");
-        this.initUserInfo();
+        // this.userInfoLayer = this.node.getChildByName("userInfoLayer");
+        // this.initUserInfo();
         this.isInit = true;
     },
     
@@ -210,60 +210,63 @@ cc.Class({
     showUserInfo:function(userData){
         console.log("userData ==== @@@@@");
         console.log(userData);
-        if(userData.head != "")
-            confige.getWXHearFrameNoSave(userData.head,this.userHead);
-        else
-            this.userHead.spriteFrame = this.headOri;
-        this.userNick.string = userData.nickname;
-        this.userScore.string = userData.gold;
-        if(userData.charm <0 )
-            this.userCharmCur.string = ";"+userData.charm;
-        else
-            this.userCharmCur.string = userData.charm;
-        if(userData.dayCharm < 0)
-            this.userCharmAdd.string = "今日"+userData.dayCharm;
-        else
-            this.userCharmAdd.string = "今日+"+userData.dayCharm;
-        this.userInfoLayer.active = true;
-        this.selectUid = userData.uid;
+        this.parent.otherInfoLayer.updateDataWithBillBoard(userData);
+        this.parent.otherInfoLayer.showLayer("other",userData);
+        // this.parent.hallGiftLayer.showLayer(userData.uid);
+        // if(userData.head != "")
+        //     confige.getWXHearFrameNoSave(userData.head,this.userHead);
+        // else
+        //     this.userHead.spriteFrame = this.headOri;
+        // this.userNick.string = userData.nickname;
+        // this.userScore.string = userData.gold;
+        // if(userData.charm <0 )
+        //     this.userCharmCur.string = ";"+userData.charm;
+        // else
+        //     this.userCharmCur.string = userData.charm;
+        // if(userData.dayCharm < 0)
+        //     this.userCharmAdd.string = "今日"+userData.dayCharm;
+        // else
+        //     this.userCharmAdd.string = "今日+"+userData.dayCharm;
+        // this.userInfoLayer.active = true;
+        // this.selectUid = userData.uid;
     },
 
-    hideUserInfo:function(){
-        this.userInfoLayer.active = false;
-    },
+    // hideUserInfo:function(){
+    //     this.userInfoLayer.active = false;
+    // },
 
-    initUserInfo:function(){
-        this.userHead = this.userInfoLayer.getChildByName("head").getComponent("cc.Sprite");
-        this.userNick = this.userInfoLayer.getChildByName("nick").getComponent("cc.Label");
-        this.userScore = this.userInfoLayer.getChildByName("score").getComponent("cc.Label");
-        this.userCharmCur = this.userInfoLayer.getChildByName("charmNum").getComponent("cc.Label");
-        this.userCharmAdd = this.userInfoLayer.getChildByName("charmAdd").getComponent("cc.Label");
+    // initUserInfo:function(){
+    //     this.userHead = this.userInfoLayer.getChildByName("head").getComponent("cc.Sprite");
+    //     this.userNick = this.userInfoLayer.getChildByName("nick").getComponent("cc.Label");
+    //     this.userScore = this.userInfoLayer.getChildByName("score").getComponent("cc.Label");
+    //     this.userCharmCur = this.userInfoLayer.getChildByName("charmNum").getComponent("cc.Label");
+    //     this.userCharmAdd = this.userInfoLayer.getChildByName("charmAdd").getComponent("cc.Label");
 
-        this.selectUid = -1;
-    },
+    //     this.selectUid = -1;
+    // },
 
-    userInfoClick:function(event,customEventData){
-        var index = parseInt(customEventData);
-        if(index >= 1 && index <= 7)
-        {
-            console.log("send gift"+index);
-            var self = this;
-            pomelo.request("connector.award.give", {"giveId" : index,"targetUid" : this.selectUid}, function(data) {
-                console.log(data);
-                    if(data.flag == true)
-                    {
-                        console.log("赠送成功@@@@@@@@@");
-                        self.hideUserInfo();
-                        self.parent.showNewTips("赠送成功,对方将会收到奖励");
-                    }else{
-                        console.log("赠送失败@@@@@@@@@");
-                        self.hideUserInfo();
-                        self.parent.showNewTips("赠送失败,请重新选择礼物");
-                    }
-                }
-            );
-        }
-        if(index == 0)
-            this.hideUserInfo();
-    },
+    // userInfoClick:function(event,customEventData){
+    //     var index = parseInt(customEventData);
+    //     if(index >= 1 && index <= 7)
+    //     {
+    //         console.log("send gift"+index);
+    //         var self = this;
+    //         pomelo.request("connector.award.give", {"giveId" : index,"targetUid" : this.selectUid}, function(data) {
+    //             console.log(data);
+    //                 if(data.flag == true)
+    //                 {
+    //                     console.log("赠送成功@@@@@@@@@");
+    //                     self.hideUserInfo();
+    //                     self.parent.showNewTips("赠送成功,对方将会收到奖励");
+    //                 }else{
+    //                     console.log("赠送失败@@@@@@@@@");
+    //                     self.hideUserInfo();
+    //                     self.parent.showNewTips("赠送失败,请重新选择礼物");
+    //                 }
+    //             }
+    //         );
+    //     }
+    //     if(index == 0)
+    //         this.hideUserInfo();
+    // },
 });

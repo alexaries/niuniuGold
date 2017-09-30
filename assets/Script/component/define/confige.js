@@ -50,6 +50,7 @@ var cfg = {
     cfg.addPlayerLateList[cfg.addPlayerLateCount] = playerData;
     cfg.addPlayerLateCount ++;
   },
+  curSignature : "",
   curDiamond : -1,
   curHistory : {},
   curGold : -1,
@@ -89,6 +90,7 @@ var cfg = {
   settleWaitData : [],
   settleWait : false,
 
+  goldNotEnoughOut : false,
   gameBeginWait : false,
   gameBeginWaitData : [],
 
@@ -96,7 +98,9 @@ var cfg = {
   curUseId : -1,
   curUseToken : -1,
   curUseCode : -1,
+  curMailData : [],
   firstShowNotice : true,
+
 
   GVoiceIsInit : false,
   GVoiceRoomID : -1,
@@ -138,18 +142,22 @@ cfg.roomLimit = {
   "goldBasic" : {
     "0" : 10,
     "1" : 50,
-    "2" : 100
+    "2" : 100,
+    "3" : 1000,
+    "4" : 5000
   },
   "diamondBasic" : {
     "0" : 10,
     "1" : 50,
-    "2" : 100
+    "2" : 100,
+    "3" : 1000,
+    "4" : 5000
   },
   limitMinRate : 100,
   limitMaxRate : 1000
 };
 
-cfg.curVersion = "1.2.9";
+cfg.curVersion = "1.05";
 cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。有事咨询客服，客服微信号：YCYX1818";
 cfg.versionCheck = "1.2.024&KSAJDGFKJASHDFGASHDGAFDGH";
 cfg.resetGameData = function(){
@@ -168,7 +176,7 @@ cfg.resetGameData = function(){
 //h5
 cfg.h5InviteCode = "0";
 cfg.h5RoomID = "0";
-cfg.h5SignID = "wxd72486a200bde1db";
+cfg.h5SignID = "wx949076bad1439cbd";
 cfg.h5SignTime = "";
 cfg.h5SignTicket = "";
 cfg.h5SignSignature = "";
@@ -181,7 +189,7 @@ console.log("分享路径22222===="+cfg.h5ShareUrlNew);
 console.log("完整路径222===="+cfg.h5SignURL + cfg.h5ShareIco);
 //
 cfg.loginType = 0;   //0:游客登陆;1:微信登陆;2:h5微信登录
-cfg.h5ShareUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd72486a200bde1db&redirect_uri=http%3a%2f%2fpay.5d8d.com%2fNN%2fnnH5%3froom_num%3dROOMNUM&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+cfg.h5ShareUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx949076bad1439cbd&redirect_uri=http%3a%2f%2fpay.5d8d.com%2fNN%2fnnH5%3froom_num%3dROOMNUM&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 // cfg.code_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf0e81c3bee622d60&redirect_uri=http%3A%2F%2Fnba.bluewebgame.com%2Foauth_response.php&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect ";
 cfg.access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 cfg.refresh_token_url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN";
@@ -198,8 +206,8 @@ cfg.meWXHeadFrame = -1;
 cfg.WXHeadFrameList = {};
 
 //
-cfg.payURL = "http://pay.5d8d.com/index.php/Tips/showpay";
-cfg.shareURL = "http://d.5d8d.com/index.php/Download/niuniu2"; //"http://game.37yiyou.cn/download/nngame/download.html?from=groupmessage";
+cfg.payURL = "http://pay.5d8d.com/index.php/download/gold";
+cfg.shareURL = "http://pay.5d8d.com/index.php/download/gold"; //"http://game.37yiyou.cn/download/nngame/download.html?from=groupmessage";
 cfg.shareTitle = "我在玩欢乐赢棋牌,快来一起玩吧";
 cfg.shareDes = "我在玩欢乐赢棋牌,快来一起玩吧";
 //
@@ -277,8 +285,8 @@ cfg.CallGVoicePoll = function(){
 cfg.GVoiceCall = {
   init : function(openID){
     if(cfg.GVoiceIsInit == false){
-        var appid = "1664310387";
-        var appkey = "5615341544b797ea39feecd758761ca7";
+        var appid = "1538764053";
+        var appkey = "df65afe71389e543f92bf6aa93d4b5c8";
         var openid = openID;
         if(cfg.curUsePlatform == 1){
           jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceInit", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", appid, appkey, openid);
@@ -441,6 +449,18 @@ cfg.getDayCount = function(){
   var newDate = Date.parse(new Date());
   var curDayCount = parseInt(newDate/1000/86400);
   return curDayCount;
+};
+
+cfg.getDateDay = function(time){
+  var curDate = new Date(time);
+  var dayString = curDate.getFullYear()+"-"+(parseInt(curDate.getMonth())+1)+"-"+curDate.getDate();
+  return dayString;
+};
+
+cfg.getDateTime = function(time){
+  var curDate = new Date(time);
+  var timeString = curDate.getHours()+":"+curDate.getMinutes()+":"+curDate.getSeconds();
+  return timeString;
 };
 
 module.exports = cfg;

@@ -83,6 +83,12 @@ cc.Class({
                 this.activityViewList[i].getChildByName("btn").getComponent("cc.Button").interactable = true;
             else
                 this.activityViewList[i].getChildByName("btn").getComponent("cc.Button").interactable = false;
+            if(i == 0)
+            {
+                this.activityViewList[i].getChildByName("btn").active = false;
+                this.activityViewList[i].getChildByName("tips2").active = true;
+            }
+
         }
     },
 

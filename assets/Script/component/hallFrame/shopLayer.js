@@ -40,7 +40,7 @@ cc.Class({
             if(data.flag == true)
             {   
                 console.log("购买成功!!!!!!");
-                self.parent.rewardLayer.showShopData(goldConf[index].gold,goldConf[index].give);
+                self.parent.rewardLayer.showShopData(goldConf[index].gold,0);
             }else{
                 console.log("购买失败!!!!!!");
             }

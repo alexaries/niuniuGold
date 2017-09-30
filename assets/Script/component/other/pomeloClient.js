@@ -1,7 +1,7 @@
 require('pomelo-cocos2d-js');
 
 var confige = require("confige");
-var tipsConf = require("tips");
+var tipsConf = require("tips").tipsConf;
 
 cc.Class({
     extends: cc.Component,
@@ -39,10 +39,12 @@ pomelo.dealWithOnMessage = function(data){
             confige.gameSceneLoadData = [];
             cc.loader.onProgress = function(completedCount, totalCount, item) {};
 
-            confige.isGoldMode = true;
-            if(confige.isGoldMode == true)
-                cc.director.loadScene('GoldScene');
-
+            if(confige.roomData.roomType == "mingpaiqz" || confige.roomData.roomType == "niuniu")
+                confige.isGoldMode = false;
+            else 
+                confige.isGoldMode = true;
+            
+            cc.director.loadScene('GoldScene');
             confige.curReconnectType = confige.ON_GAME;
             break;
         case "userInfo" :
@@ -60,6 +62,7 @@ pomelo.dealWithOnMessage = function(data){
             confige.curDiamond = confige.userInfo.diamond;
             confige.curHistory = confige.userInfo.history;
             confige.curGold = confige.userInfo.gold;
+            confige.curSignature = confige.userInfo.signature;
             confige.curCharmNum = confige.userInfo.charm;
             confige.curCharmAdd = confige.userInfo.refreshList.charmValue
             confige.curSex = parseInt(confige.userInfo.sex);
@@ -86,9 +89,13 @@ pomelo.dealWithOnMessage = function(data){
                         //自动跳转游戏场景并恢复数据
                         confige.gameSceneLoadOver = false;
                         confige.gameSceneLoadData = [];
-                        confige.isGoldMode = true;
-                        if(confige.isGoldMode == true)
-                            cc.director.loadScene('GoldScene');
+
+                        if(confige.roomData.roomType == "mingpaiqz" || confige.roomData.roomType == "niuniu")
+                            confige.isGoldMode = false;
+                        else 
+                            confige.isGoldMode = true;
+
+                        cc.director.loadScene('GoldScene');
                         confige.curReconnectType = confige.ON_GAME;
                     }else if(confige.curReconnectType == confige.ON_GAME){
                         //已经在游戏场景内,直接恢复数据
@@ -176,10 +183,14 @@ pomelo.dealWithOnMessage = function(data){
             else{
                 if(confige.curSceneIndex != 2)
                     break;
-                if(confige.gameBeginWait == true)
+                if(confige.gameBeginWait == true){
+                    console.log("confige.gameBeginWaitData.push(data);");
                     confige.gameBeginWaitData.push(data);
-                else
+                }
+                else{
+                    console.log("pomelo.clientScene.onServerBeginBetting(data);");
                     pomelo.clientScene.onServerBeginBetting(data);
+                }
             }
             break;
         case "gameOver":
@@ -391,7 +402,7 @@ pomelo.dealWithOnMessage = function(data){
                 pomelo.clientScene.gamePlayerNode.updateScoreByChair(data.chair,data.score);
             break;
         case "userOutRoom":
-            if(confige.curSceneIndex == 2)
+            if(confige.curSceneIndex == 2 && confige.goldNotEnoughOut == false)
                 pomelo.clientScene.showGoldQuit();
             // if(data.reason == "notEnoughGold")
             break;
@@ -399,7 +410,9 @@ pomelo.dealWithOnMessage = function(data){
             pomelo.clientScene.gamePlayerNode.showGive(data);
             break;
         case "userReturn":
-            confige.quitToHallScene(true);
+            // pomelo.clientScene.gameInfoNode.showReturn();
+            if(confige.curSceneIndex == 2 && confige.goldNotEnoughOut == false)
+                confige.quitToHallScene(true);
             break;
         case "signInAward":
             console.log("signInAward@@@@@@@@@!!!!!!!!");
@@ -418,6 +431,20 @@ pomelo.dealWithOnMessage = function(data){
         case "beGive":
             if(confige.curSceneIndex == 1)
                 pomelo.clientScene.beGive(data);
+            break;
+        case "canLotto":
+            if(confige.curSceneIndex == 2)
+                pomelo.clientScene.showLotto();
+            break;
+        case "newMail":
+            if(confige.curSceneIndex == 1)
+                if(pomelo.clientScene.newMail)
+                    pomelo.clientScene.newMail.active = true;
+            break;
+        case "goldNotEnoughOut":
+            confige.goldNotEnoughOut = true;
+            pomelo.clientScene.gameInfoNode.showReturn();
+            break;
     }
 };
         

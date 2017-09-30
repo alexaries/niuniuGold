@@ -21,7 +21,10 @@ cc.Class({
         this.curPayNum = 0;
         this.curDiamondNum = 0;
 
-        jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "payInit", "()V");
+        if(cc.sys.platform == cc.sys.ANDROID)
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "payInit", "()V");
+        if(cc.sys.platform == cc.sys.IPHONE || cc.sys.platform == cc.sys.IPAD)
+            jsb.reflection.callStaticMethod("JSCallOC", "PayInit");
 
         this.isInit = true;
     },
@@ -100,16 +103,19 @@ cc.Class({
         var amount = self.curPayNum; 
         var httpCallback = function(){
             var curReturn = JSON.parse(xmlHttp.responseText);
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", JSON.stringify(curReturn));
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", JSON.stringify(curReturn));
             if(curReturn.code == 1){
-                jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "payWithType", "(IIILjava/lang/String;)V",curPayType,self.curPayNum,self.curDiamondNum,curReturn.order_id);
+                if(cc.sys.platform == cc.sys.ANDROID)
+                    jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "payWithType", "(IIILjava/lang/String;)V",curPayType,self.curPayNum,self.curDiamondNum,"android_"+curReturn.order_id);
+                if(cc.sys.platform == cc.sys.IPHONE || cc.sys.platform == cc.sys.IPAD)
+                    jsb.reflection.callStaticMethod("JSCallOC", "payWithType:andPay:andSubject:andOrder:", curPayType,self.curPayNum.toString(),"兑换"+self.curDiamondNum+"颗钻石","ios_"+curReturn.order_id);
             }
         };
 
         var url = "http://pay.5d8d.com/gold_admin.php/api/getOrderInfo?game_uid=GAME_UID&amount=AMOUNT"
         url = url.replace("GAME_UID", game_uid);
         url = url.replace("AMOUNT", amount);
-        jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", url);
+        // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", url);
             
         xmlHttp.onreadystatechange = httpCallback;
         xmlHttp.open("GET", url, true);// 异步处理返回   

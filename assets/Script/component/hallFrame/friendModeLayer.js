@@ -1,4 +1,4 @@
-var tipsData = require("tips");
+var tipsConf = require("tips").tipsConf;
 var confige = require("confige");
 cc.Class({
     extends: cc.Component,
@@ -29,6 +29,7 @@ cc.Class({
 
     onBtnClickByIndex:function(event, customEventData){
         var index = parseInt(customEventData);
+        var self = this;
         if(index == 0)  //create
         {
             this.createLayer.active = true;
@@ -44,10 +45,14 @@ cc.Class({
             this.btnJoin.runAction(cc.scaleTo(0.3,0));
         }else if(index == 2){    //create
             console.log("willCreateRoom")
+            console.log("this.basicType === ",this.basicType);
             pomelo.request("connector.entryHandler.sendData", {"code" : "createInitiativeRoom","params" : {
-                gameType:this.gameType,rate:this.rate,cardMode:this.cardMode,bankerMode:this.bankerMode,basicType:this.basicType}}, function(data) {
+                gameType:this.gameType,rate:this.curRate,cardMode:this.cardMode,bankerMode:this.bankerMode,basicType:this.basicType}}, function(data) {
                     console.log("create room OK@@@@@@@@@@");
                     console.log(data);
+                    if(data.flag == false)
+                        if(data.msg.msg)
+                            self.parent.showTips(tipsConf[data.msg.msg]);
                 }
             ); 
         }
@@ -63,16 +68,19 @@ cc.Class({
         this.cardModeSelect = this.createLayer.getChildByName("cardModeSelect");
         this.bankerModeSelect = this.createLayer.getChildByName("bankerModeSelect");
         this.basicModeSelect = this.createLayer.getChildByName("basicModeSelect");
+        this.basicModeSelect2 = this.createLayer.getChildByName("basicModeSelect2");
         this.rateModeSelect = this.createLayer.getChildByName("rateModeSelect");
         this.enterLimitLabel = this.createLayer.getChildByName("enterLimit").getChildByName("limitNum").getComponent("cc.Label");
         this.leaveLimitLabel = this.createLayer.getChildByName("leaveLimit").getChildByName("limitNum").getComponent("cc.Label");
 
         this.rateBasicList = [];
-        this.rateBasicList[0] = 10;
-        this.rateBasicList[1] = 50;
-        this.rateBasicList[2] = 100;
-        this.enterLimitLabel.string = this.rateBasicList[this.rate]*100;
-        this.leaveLimitLabel.string = this.rateBasicList[this.rate]*50
+        this.rateBasicList[0] = 100;
+        this.rateBasicList[1] = 500;
+        this.rateBasicList[2] = 1000;
+        this.curRate = 10;
+        this.rateEditBox = this.rateModeSelect.getChildByName("rateEditBox").getComponent("cc.EditBox");
+        this.enterLimitLabel.string = this.curRate*100;
+        this.leaveLimitLabel.string = this.curRate*50
     },
 
     initJoinLayer:function(){
@@ -97,6 +105,11 @@ cc.Class({
             roomId: roomId}}, function(data) {
                 console.log("join room OK@@@@@@@@@@");
                 console.log(data);
+                if(data.flag == false)
+                        if(data.msg.msg){
+                            self.parent.showTips(tipsConf[data.msg.msg]);
+                            self.cleanRoomId();
+                        }
             }
         ); 
         console.log("join room" + roomId);
@@ -114,11 +127,17 @@ cc.Class({
             }
             if(this.curRoomIDCount == 6)
             {
+                var self = this;
                 var roomId = parseInt(this.joinRoomID);
                 pomelo.request("connector.entryHandler.sendData", {"code" : "joinInitiativeRoom","params" : {
                     roomId: roomId}}, function(data) {
                         console.log("join room OK@@@@@@@@@@");
                         console.log(data);
+                        if(data.flag == false)
+                            if(data.msg.msg){
+                                self.parent.showTips(tipsConf[data.msg.msg]);
+                                self.cleanRoomId();
+                            }
                     }
                 ); 
             }
@@ -142,10 +161,22 @@ cc.Class({
     selectGameMode:function(event, customEventData){
         var index = parseInt(customEventData);
         console.log("selectGameMode   =====   "+index);
-        if(index == 0)
+        if(index == 0){
             this.gameType = "niuniu";
-        else if(index == 1)
+            this.basicModeSelect.active = true;
+            this.basicModeSelect2.active = false;
+            this.basicType = 0;
+            this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+            this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        }
+        else if(index == 1){
             this.gameType = "mingpaiqz";
+            this.basicModeSelect.active = false;
+            this.basicModeSelect2.active = true;
+            this.basicType = 4;
+            this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+            this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        }
     },
     selectCardMode:function(event, customEventData){
         var index = parseInt(customEventData);
@@ -169,6 +200,30 @@ cc.Class({
         this.enterLimitLabel.string = this.rateBasicList[index]*100;
         this.leaveLimitLabel.string = this.rateBasicList[index]*50;
     },
+    rateEditBegin:function(){
+
+    },
+    rateEditEnd:function(){
+        console.log("rateEditEnd@@@@@@@@@@@")
+        var newRate = parseInt(this.rateEditBox.string);
+        if(this.rateEditBox.string == "")
+            this.rateEditBox.string = 10;
+            this.curRate = parseInt(this.rateEditBox.string);
+            this.enterLimitLabel.string = this.curRate*100;
+            this.leaveLimitLabel.string = this.curRate*50;
+        if(newRate < 10)
+        {
+            this.rateEditBox.string = 10;
+            this.curRate = parseInt(this.rateEditBox.string);
+            this.enterLimitLabel.string = this.curRate*100;
+            this.leaveLimitLabel.string = this.curRate*50;
+        }else if(newRate > 5000){
+            this.rateEditBox.string = 5000;
+            this.curRate = parseInt(this.rateEditBox.string);
+            this.enterLimitLabel.string = this.curRate*100;
+            this.leaveLimitLabel.string = this.curRate*50;
+        }
+    },
 
     cleanRoomId:function(){
         this.joinRoomID = "";
@@ -187,6 +242,7 @@ cc.Class({
 
     hideJoinLayer:function(){
         this.joinLayer.active = false;
+        this.cleanRoomId();
         this.btnCreate.stopAllActions();
         this.btnJoin.stopAllActions();
         this.btnCreate.runAction(cc.scaleTo(0.3,1));

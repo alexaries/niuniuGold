@@ -155,30 +155,33 @@ cc.Class({
         var callBack = function(){
             if(this.playerActiveList[disCount] == true)
             {
-                var newCardItem = cc.instantiate(this.cardItem);
-                this.node.addChild(newCardItem);
-                newCardItem.active = true;
-                newCardItem.x = -545;
-                newCardItem.y = 190;
-                this.cardItemList[this.cardItemCount] = newCardItem;
-                this.cardItemCount ++;
-                
-                var action1 = cc.moveTo(0.2, cc.p(this.handCardPosList[disCount][curRoundCount].x, this.handCardPosList[disCount][curRoundCount].y));
-                var scaleNum = 1;
-                if(disCount == 0)
-                    scaleNum = this.mainPlayerScale;
-                else
-                    scaleNum = this.otherPlayerScale;
-                var action2 = cc.scaleTo(0.2,scaleNum);
-                var self = this
-                var action3 = (function(disCount,curRoundCount,self) {
-                   return cc.callFunc(function () {
-                    newCardItem.active = false;
-                    self.handCardList[disCount].showCardBackWithIndex(curRoundCount);
-                }, self)
-                })(disCount,curRoundCount,self)
+                if(disCount < 6 && curRoundCount < 5)
+                {
+                    var newCardItem = cc.instantiate(this.cardItem);
+                    this.node.addChild(newCardItem);
+                    newCardItem.active = true;
+                    newCardItem.x = -545;
+                    newCardItem.y = 190;
+                    this.cardItemList[this.cardItemCount] = newCardItem;
+                    this.cardItemCount ++;
+                    
+                    var action1 = cc.moveTo(0.2, cc.p(this.handCardPosList[disCount][curRoundCount].x, this.handCardPosList[disCount][curRoundCount].y));
+                    var scaleNum = 1;
+                    if(disCount == 0)
+                        scaleNum = this.mainPlayerScale;
+                    else
+                        scaleNum = this.otherPlayerScale;
+                    var action2 = cc.scaleTo(0.2,scaleNum);
+                    var self = this
+                    var action3 = (function(disCount,curRoundCount,self) {
+                       return cc.callFunc(function () {
+                        newCardItem.active = false;
+                        self.handCardList[disCount].showCardBackWithIndex(curRoundCount);
+                    }, self)
+                    })(disCount,curRoundCount,self)
 
-                newCardItem.runAction(cc.sequence(cc.spawn(action1,action2), cc.delayTime(0.1),action3));
+                    newCardItem.runAction(cc.sequence(cc.spawn(action1,action2), cc.delayTime(0.1),action3));
+                }
             }            
             disCount ++;
             if(disCount == 6)

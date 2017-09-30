@@ -45,6 +45,9 @@ cc.Class({
         this.goldModeLayer = this.node.getChildByName("goldModeLayer").getComponent("goldModeLayer");
         this.diamondModeLayer = this.node.getChildByName("diamondModeLayer").getComponent("diamondModeLayer");
         this.friendModeLayer = this.node.getChildByName("friendModeLayer").getComponent("friendModeLayer");
+        this.friendModeLayer.onInit();
+        this.friendModeLayer.parent = this;
+        this.friendModeBg = this.node.getChildByName("friendModeBg");
         this.goldModeLayer.parent = this;
         this.diamondModeLayer.parent = this;
 
@@ -58,6 +61,8 @@ cc.Class({
         this.playerId = this.playerNode.getChildByName("id").getComponent("cc.Label");
         this.playerNick.string = confige.userInfo.nickname;
         this.playerId.string = confige.userInfo.uid;
+        this.newMail = this.bottomNode.getChildByName("newMail");
+        this.checkMail();
 
         this.diamondNum = this.diamondNode.getChildByName("diamondNum").getComponent("cc.Label");
         this.diamondNum.string = confige.curDiamond;
@@ -100,8 +105,9 @@ cc.Class({
         this.shareMask.active = false;
         
         this.layerNode = this.node.getChildByName("layerNode");
+        this.layerNode2 = this.node.getChildByName("layerNode2");
 
-        this.rewardLayer = this.node.getChildByName("rewardLayer").getComponent("rewardLayer");
+        this.rewardLayer = this.layerNode2.getChildByName("rewardLayer").getComponent("rewardLayer");
         this.rewardLayer.onInit();
         this.billboardLayer = this.layerNode.getChildByName("billboardLayer").getComponent("billboardLayer");
         this.billboardLayer.parent = this;
@@ -110,7 +116,7 @@ cc.Class({
         this.activityLayer = this.layerNode.getChildByName("activityLayer").getComponent("activityLayer");
         this.activityLayer.parent = this;
 
-        this.beGiveLayer = this.node.getChildByName("beGiveLayer");
+        this.beGiveLayer = this.layerNode2.getChildByName("beGiveLayer");
         this.giftLabel = this.beGiveLayer.getChildByName("giftLabel").getComponent("cc.Label");
         this.giftFrameList = {};
         for(var i=1;i<=7;i++)
@@ -119,20 +125,36 @@ cc.Class({
         }
         this.giftItemSprite = this.beGiveLayer.getChildByName("rewardItem").getComponent("cc.Sprite");
 
-        if(confige.signInAward != -1)
-            this.checkSignInAward();
+        // if(confige.signInAward != -1)
+        //     this.checkSignInAward();
 
-        this.payLayer = this.layerNode.getChildByName("payLayer").getComponent("payLayer");
+        this.payLayer = this.layerNode2.getChildByName("payLayer").getComponent("payLayer");
         this.payLayer.onInit();
         this.payLayer.parent = this;
 
-        this.shopLayer = this.layerNode.getChildByName("shopLayer").getComponent("shopLayer");
+        this.shopLayer = this.layerNode2.getChildByName("shopLayer").getComponent("shopLayer");
         this.shopLayer.onInit();
         this.shopLayer.parent = this;
 
-        this.userInfoLayer = this.layerNode.getChildByName("userInfoLayer").getComponent("userInfoLayer");
-        this.userInfoLayer.onInit("hall");
+        this.userInfoLayer = this.layerNode2.getChildByName("userInfoLayer").getComponent("userInfoLayer");
+        this.userInfoLayer.onInit("hall","user");
         this.userInfoLayer.parent = this;
+
+        this.otherInfoLayer = this.layerNode2.getChildByName("otherInfoLayer").getComponent("userInfoLayer");
+        this.otherInfoLayer.onInit("hall","other");
+        this.otherInfoLayer.parent = this;
+
+        this.hallGiftLayer = this.layerNode2.getChildByName("hallGiftLayer").getComponent("hallGiftLayer");
+        this.hallGiftLayer.onInit();
+        this.hallGiftLayer.parent = this;
+
+        this.sendListLayer = this.layerNode2.getChildByName("sendListLayer").getComponent("sendListLayer");
+        this.sendListLayer.onInit();
+        this.sendListLayer.parent = this;
+
+        this.mailLayer = this.layerNode2.getChildByName("mailLayer").getComponent("mailLayer");
+        this.mailLayer.onInit();
+        this.mailLayer.parent = this;
 
         if(confige.userInfo.refreshList)
             {
@@ -217,34 +239,34 @@ cc.Class({
             this.btnAniFriend.play();
         }, this))));
 
-        this.getRechargeInfo();
+        // this.getRechargeInfo();
 
-        var myDate = new Date()
-        var month = myDate.getMonth()
-        var date = myDate.getDate()
-        if(month < 10){
-            month = "0"+month
-        }
-        if(date < 10){
-            date = "0"+date
-        }
-        var dateString = parseInt(""+myDate.getFullYear() + month + date)
-        console.log("dateString===",dateString);
-        console.log("recordDate===",confige.userInfo.refreshList.lottoTime);
-        if(dateString > confige.userInfo.refreshList.lottoTime && confige.userInfo.refreshList.lottoCount == 0){
-            console.log("dateString > confige.userInfo.loginRecord.recordDate!!!!!!!")
-            cc.sys.localStorage.setItem('canUseRotary',true);
-        }else{
-            cc.sys.localStorage.setItem('canUseRotary',false);
-        }
-        if(cc.sys.localStorage.getItem('canUseRotary') == "true")
-        {
-            console.log("rotaryLayer √showLayer!!!!!!!")
-            if(confige.openGame == true){
-                this.rotaryLayer.showLayer();
-                confige.activityActive[0] = true;
-            }
-        }
+        // var myDate = new Date()
+        // var month = myDate.getMonth()
+        // var date = myDate.getDate()
+        // if(month < 10){
+        //     month = "0"+month
+        // }
+        // if(date < 10){
+        //     date = "0"+date
+        // }
+        // var dateString = parseInt(""+myDate.getFullYear() + month + date)
+        // console.log("dateString===",dateString);
+        // console.log("recordDate===",confige.userInfo.refreshList.lottoTime);
+        // if(dateString > confige.userInfo.refreshList.lottoTime && confige.userInfo.refreshList.lottoCount == 0){
+        //     console.log("dateString > confige.userInfo.loginRecord.recordDate!!!!!!!")
+        //     cc.sys.localStorage.setItem('canUseRotary',true);
+        // }else{
+        //     cc.sys.localStorage.setItem('canUseRotary',false);
+        // }
+        // if(cc.sys.localStorage.getItem('canUseRotary') == "true")
+        // {
+        //     console.log("rotaryLayer √showLayer!!!!!!!")
+        //     if(confige.openGame == true){
+        //         this.rotaryLayer.showLayer();
+        //         confige.activityActive[0] = true;
+        //     }
+        // }
 
         confige.curSceneIndex = 1;
 
@@ -527,14 +549,20 @@ cc.Class({
                 self.rotaryLayer.showLayer();
                 break;
             case 13:
-                console.log("将会打开救济金界面!!!");
+                var mailLayer = self.mailLayer;
+                pomelo.request("connector.mail.getMailList",null, function(data) {
+                    console.log(data);
+                    console.log("将会打开邮件界面!!!");
+                    mailLayer.updateData(data.data);
+                    mailLayer.showLayer();
+                });
                 break;
             case 14:
                 this.activityLayer.showLayer();
                 console.log("将会打开活动界面!!!");
                 break;
             case 15:
-                this.userInfoLayer.showLayer();
+                this.userInfoLayer.showLayer("user");
                 break;
         };
     },
@@ -588,13 +616,13 @@ cc.Class({
 
     showTips:function(newTips,type){
         this.tipsBoxLabel.string = newTips;
-        this.tipsBox.active = true;
         this.tipsBox.opacity = 0;
-        var tipsAction = cc.sequence(
-            cc.fadeIn(0.5),
-            cc.delayTime(3),
-            cc.fadeOut(0.5)
-        );
+        this.tipsBox.active = true;
+        // var tipsAction = cc.sequence(
+        //     cc.fadeIn(0.5),
+        //     cc.delayTime(3),
+        //     cc.fadeOut(0.5)
+        // );
         this.tipsBox.runAction(cc.fadeIn(0.5));
 
         if(type == 1)           //创建成功,隐藏界面
@@ -607,8 +635,10 @@ cc.Class({
 
     hideTips:function(){
         this.tipsBox.stopAllActions();
-        this.tipsBox.opacity = 0;
-        this.tipsBox.active = false;
+        var self = this;
+        this.tipsBox.runAction(cc.sequence(cc.fadeIn(0.1),cc.callFunc(function(){
+            self.tipsBox.active = false;
+        })));
     },
     
     btnAddDiamond:function(event, customEventData){
@@ -647,37 +677,37 @@ cc.Class({
 
     openShare:function(){
         //微信分享后的回调
-        if(confige.userInfo.refreshList)
-        {
-            var myDate = new Date();
-            var month = myDate.getMonth();
-            var date = myDate.getDate();
-            if(month < 10){
-                month = "0"+month;
-            }
-            if(date < 10){
-                date = "0"+date;
-            }
-            var dateString = parseInt(""+myDate.getFullYear() + month + date);
-            var refreshDay = confige.userInfo.refreshList.shareTime;
-            var refreshCount = confige.userInfo.refreshList.shareCount;
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "dateString");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", dateString.toString());
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "refreshDay");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", refreshDay.toString());
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "refreshCount");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", refreshCount.toString());
-            if(dateString < refreshDay)
-                console.log("今日领取过分享奖励！！！！！");
-            else{
-                if(refreshCount == 0)
-                {
-                    console.log("可以领取分享奖励");
-                    confige.activityActive[1] = true;
-                    this.activityLayer.showLayer(1);
-                }
-            }
-        }
+        // if(confige.userInfo.refreshList)
+        // {
+        //     var myDate = new Date();
+        //     var month = myDate.getMonth();
+        //     var date = myDate.getDate();
+        //     if(month < 10){
+        //         month = "0"+month;
+        //     }
+        //     if(date < 10){
+        //         date = "0"+date;
+        //     }
+        //     var dateString = parseInt(""+myDate.getFullYear() + month + date);
+        //     var refreshDay = confige.userInfo.refreshList.shareTime;
+        //     var refreshCount = confige.userInfo.refreshList.shareCount;
+        //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "dateString");
+        //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", dateString.toString());
+        //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "refreshDay");
+        //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", refreshDay.toString());
+        //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "refreshCount");
+        //     jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", refreshCount.toString());
+        //     if(dateString < refreshDay)
+        //         console.log("今日领取过分享奖励！！！！！");
+        //     else{
+        //         if(refreshCount == 0)
+        //         {
+        //             console.log("可以领取分享奖励");
+        //             confige.activityActive[1] = true;
+        //             this.activityLayer.showLayer(1);
+        //         }
+        //     }
+        // }
         this.shareMask.active = false;
         if(confige.curOverLayer != -1)
             confige.curOverLayer.openShare();
@@ -750,6 +780,7 @@ cc.Class({
             this.goldModeLayer.hideLayer();
             this.diamondModeLayer.hideLayer();
             this.friendModeLayer.hideLayer();
+            this.friendModeBg.active = false;
             this.curGameMode = 0;
         }else if(index == 1){
             this.playerNode.x = -322;
@@ -783,6 +814,7 @@ cc.Class({
 
             this.btnReturn.active = true;
             this.friendModeLayer.showLayer();
+            this.friendModeBg.active = true;
             this.curGameMode = 3;
         }
     },
@@ -831,6 +863,7 @@ cc.Class({
     },
 
     showNewTips:function(label){
+        console.log("showNewTips@@@@@");
         this.newTips.stopAllActions();
         this.newTips.opacity = 0;
         this.newTips.runAction(cc.sequence(cc.fadeIn(0.5),cc.delayTime(1.0),cc.fadeOut(0.5)));
@@ -929,6 +962,24 @@ cc.Class({
                     "application/x-www-form-urlencoded;");  
             xmlHttp.send();
         }, 0.1);
+    },
+
+    checkMail:function(){
+        var self = this;
+        pomelo.request("connector.mail.getMailList",null, function(data) {
+            console.log(data);
+            console.log("checkMail!!!!!");
+            confige.curMailData = data.data;
+            self.newMail.active = false;
+            for(var i in confige.curMailData)
+            {
+                if(confige.curMailData[i].readState == true || (confige.curMailData[i].affix != false && confige.curMailData[i].gainState == true))
+                {
+                    self.newMail.active = true;
+                    return;
+                }
+            }
+        });
     },
 
 });

@@ -48,6 +48,7 @@ cc.Class({
             this.playerActiveList[i] = false;
             this.playerScoreList[i] = 0;
             this.playerHandCardList[i] = this.playerList[i].getChildByName("HandCards").getComponent("handCards");
+            this.playerHandCardList[i].onInit();
             if(i == 0)
                 this.playerHandCardList[i].isPlayer = true;
             console.log("this.playerHandCardList load ++++",i);
@@ -259,6 +260,7 @@ cc.Class({
     playerQuit:function(chair){
         console.log("playerQuit -------------------" + chair);
         var curIndex = confige.getCurChair(chair);
+        console.log("playerQuit curIndex -------------------" + chair);
         this.playerList[curIndex].stopAllActions();
         this.playerList[curIndex].opacity = 255;
         this.playerList[curIndex].runAction(cc.fadeOut(0.5));
@@ -276,7 +278,7 @@ cc.Class({
         this.newPlayerCount --;
         confige.curPlayerCount --;
         if(this.newPlayerCount < 6)
-            if(confige.isGoldMode != true)
+            if(confige.roomData.initiativeFlag == true)
                 gameData.gameMainScene.gameInfoNode.btn_inviteFriend.active = true;
 
         confige.WXHeadFrameList[curIndex+1] = null;
@@ -485,7 +487,7 @@ cc.Class({
         var clickIndex = parseInt(customEventData);
         if(clickIndex == 0)
         {
-            gameData.gameInfoNode.onBtnShowLayer(-1,4);
+            gameData.gameInfoNode.onBtnShowLayer(-1,2);
             return;
         }
         var oriChair = confige.getOriChair(clickIndex);
@@ -493,19 +495,20 @@ cc.Class({
         if(confige.roomPlayer[oriChair].isActive == true)
         {
             var newCallBack = function(){
-                console.log("gameGiftLayer curplayer info:");
-                console.log(confige.roomPlayer[oriChair]);
-                gameData.gameInfoNode.gameGiftLayer.playerNick.string = confige.roomPlayer[oriChair].playerInfo.nickname;
-                gameData.gameInfoNode.gameGiftLayer.playerScore.string = self.playerScoreList[oriChair];
-                console.log("setCharm!!!!!!!!!!!!!!!!");
-                console.log(""+self.charmCurList[clickIndex]+"@@@@@@@@@@@@@@@@@"+self.charmAddList[clickIndex]);
-                gameData.gameInfoNode.gameGiftLayer.setCharm(self.charmCurList[clickIndex],self.charmAddList[clickIndex]);
-                console.log(confige.WXHeadFrameList);
-                if(confige.WXHeadFrameList[clickIndex+1])
-                    gameData.gameInfoNode.gameGiftLayer.playerHead.spriteFrame = confige.WXHeadFrameList[clickIndex+1];
-                else 
-                    gameData.gameInfoNode.gameGiftLayer.playerHead.spriteFrame = self.headOri;
-                gameData.gameInfoNode.gameGiftLayer.selectChair = oriChair;
+                gameData.gameInfoNode.userInfoLayer.updateData(confige.roomPlayer[oriChair]);
+                // console.log("gameGiftLayer curplayer info:");
+                // console.log(confige.roomPlayer[oriChair]);
+                // gameData.gameInfoNode.gameGiftLayer.playerNick.string = confige.roomPlayer[oriChair].playerInfo.nickname;
+                // gameData.gameInfoNode.gameGiftLayer.playerScore.string = self.playerScoreList[oriChair];
+                // console.log("setCharm!!!!!!!!!!!!!!!!");
+                // console.log(""+self.charmCurList[clickIndex]+"@@@@@@@@@@@@@@@@@"+self.charmAddList[clickIndex]);
+                // gameData.gameInfoNode.gameGiftLayer.setCharm(self.charmCurList[clickIndex],self.charmAddList[clickIndex]);
+                // console.log(confige.WXHeadFrameList);
+                // if(confige.WXHeadFrameList[clickIndex+1])
+                //     gameData.gameInfoNode.gameGiftLayer.playerHead.spriteFrame = confige.WXHeadFrameList[clickIndex+1];
+                // else 
+                //     gameData.gameInfoNode.gameGiftLayer.playerHead.spriteFrame = self.headOri;
+                // gameData.gameInfoNode.gameGiftLayer.selectChair = oriChair;
             };
             gameData.gameInfoNode.onBtnShowLayer(-1,3,newCallBack);
         }
@@ -522,5 +525,15 @@ cc.Class({
         this.charmCurList[curChair] += give[data.giveId].charm;
         this.charmAddList[curChair] += give[data.giveId].charm;
         this.showHeadFace(confige.getCurChair(data.chair),curChair,data.giveId);
+    },
+
+    changeDeskClean:function(){
+        for(var i=1;i<6;i++)
+            this.playerList[i].runAction(cc.fadeOut(0.3));
+        this.playerHandCardList[0].resetCard();
+        for(var i=0;i<6;i++)
+        {
+            this.niuTypeBoxList[i].runAction(cc.fadeOut(0.3));
+        }
     },
 });

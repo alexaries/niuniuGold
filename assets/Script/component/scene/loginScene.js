@@ -88,9 +88,9 @@ cc.Class({
         this.updateLayer = this.node.getChildByName("updateLayer").getComponent("HotUpdate");
         this.updateLayer.onInit();
 
-        // if (cc.sys.isNative) {
-            // this.updateLayer.checkUpdate();
-        // }
+        if (cc.sys.isNative) {
+            this.updateLayer.checkUpdate();
+        }
     },
     
     start: function () {
@@ -371,8 +371,11 @@ cc.Class({
 
     onBtnTravelerClicked:function(){
         console.log("fuck click travler");
-        this.editBox.active = true;
+        // this.editBox.active = true;
         // confige.loginType = 0;
+
+
+        pomelo.clientLogin("");
         // if(cc.sys.localStorage.getItem("lastLoginUid") == 0)
         // {
         //     pomelo.clientLogin("");
@@ -501,7 +504,7 @@ cc.Class({
     },
 
     wxRefreshLogin:function(){
-        jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "微信刷新登陆111");
+        // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "微信刷新登陆111");
         var self = this;
         var xmlHttp = this.createXMLHttpRequest();
 
@@ -511,12 +514,12 @@ cc.Class({
             confige.WX_ACCESS_TOKEN = loginJson.access_token;
             confige.WX_OPEN_ID = loginJson.openid;
             confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_REFRESH_TOKEN");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.refresh_token);
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_OPEN_ID");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.openid);
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_ACCESS_TOKEN");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.access_token);
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_REFRESH_TOKEN");
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.refresh_token);
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_OPEN_ID");
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.openid);
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_ACCESS_TOKEN");
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.access_token);
             pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
             cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
         };
@@ -525,8 +528,8 @@ cc.Class({
             var url = confige.refresh_token_url;
             url = url.replace("APPID", confige.APP_ID);
             url = url.replace("REFRESH_TOKEN", confige.WX_REFRESH_TOKEN);
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "refresh_token_url");
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", url);
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "refresh_token_url");
+            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", url);
             xmlHttp.onreadystatechange = httpCallback;
             xmlHttp.open("GET", url, true);// 异步处理返回   
             xmlHttp.setRequestHeader("Content-Type",  
