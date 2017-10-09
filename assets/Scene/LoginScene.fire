@@ -3584,7 +3584,7 @@
     "_spriteFrame": {
       "__uuid__": "9cc09490-5a4b-4abb-85e8-293633cee213"
     },
-    "_type": 1,
+    "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
@@ -3803,7 +3803,9 @@
       "__uuid__": "a30d6566-68af-4c42-b306-7295d591a05e"
     },
     "_updating": false,
-    "_canRetry": false
+    "_canRetry": false,
+    "needRestart": false,
+    "updateSchedule": -1
   },
   {
     "__type__": "cc.Node",
@@ -5080,7 +5082,7 @@
     "node": {
       "__id__": 129
     },
-    "_enabled": false,
+    "_enabled": true,
     "transition": 0,
     "pressedColor": {
       "__type__": "cc.Color",

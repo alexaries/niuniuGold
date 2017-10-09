@@ -69,6 +69,7 @@ cc.Class({
 
         this.cardsBack = new Array(5);
         this.cardBackNode = this.node.getChildByName("CardBack");
+        this.cardBackNode.zIndex = 10;
         this.cardsBack[0] = this.cardBackNode.getChildByName("Card1")
         this.cardsBack[1] = this.cardBackNode.getChildByName("Card2")
         this.cardsBack[2] = this.cardBackNode.getChildByName("Card3")

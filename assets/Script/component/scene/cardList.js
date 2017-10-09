@@ -93,8 +93,8 @@ cc.Class({
                 }
             }
         }else{
-            this.mainPlayerScale = 1.2;
-            this.otherPlayerScale = 0.54;
+            this.mainPlayerScale = 1.5;
+            this.otherPlayerScale = 0.75;
             for(var i=0;i<6;i++){
                 this.handCardPosList[i] = {};
                 this.playerActiveList[i] = false;
@@ -102,22 +102,22 @@ cc.Class({
                 {
                     switch(i){
                         case 0:
-                        this.handCardPosList[i][j] = {x:-190 + j*80*this.mainPlayerScale,y:-265};
+                        this.handCardPosList[i][j] = {x:-250 + j*85*this.mainPlayerScale,y:-259.5};
                         break;
                         case 1:
-                        this.handCardPosList[i][j] = {x:414 + j*40*this.otherPlayerScale,y:12.2};
+                        this.handCardPosList[i][j] = {x:314 + j*40*this.otherPlayerScale,y:-20};
                         break;
                         case 2:
-                        this.handCardPosList[i][j] = {x:290 + j*40*this.otherPlayerScale,y:180};
+                        this.handCardPosList[i][j] = {x:229 + j*40*this.otherPlayerScale,y:166};
                         break;
                         case 3:
-                        this.handCardPosList[i][j] = {x:-44 + j*40*this.otherPlayerScale,y:180};
+                        this.handCardPosList[i][j] = {x:-53 + j*40*this.otherPlayerScale,y:166};
                         break;
                         case 4:
-                        this.handCardPosList[i][j] = {x:-378 + j*40*this.otherPlayerScale,y:180};
+                        this.handCardPosList[i][j] = {x:-335 + j*40*this.otherPlayerScale,y:166};
                         break;
                         case 5:
-                        this.handCardPosList[i][j] = {x:-500 + j*40*this.otherPlayerScale,y:12.2};
+                        this.handCardPosList[i][j] = {x:-423.3 + j*40*this.otherPlayerScale,y:-20};
                         break;
                     }
                 }
@@ -177,6 +177,7 @@ cc.Class({
                        return cc.callFunc(function () {
                         newCardItem.active = false;
                         self.handCardList[disCount].showCardBackWithIndex(curRoundCount);
+                        console.log("showCardBackWithIndex ====="+curRoundCount);
                     }, self)
                     })(disCount,curRoundCount,self)
 

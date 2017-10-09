@@ -427,9 +427,11 @@ cc.Class({
 
         if(this.joinState == 1001)
         {
-            this.gameInfoNode.changeDeskBtnNode.opacity = 255;
-            if(confige.isGoldMode == true)
+            
+            if(confige.isGoldMode == true){
+                this.gameInfoNode.changeDeskBtnNode.opacity = 255;
                 this.gameInfoNode.changeDeskBtn.interactable = true;
+            }
             this.beginTimeStamp = Date.parse(new Date()) - this.beginTimeStamp;
             var newTime = Math.ceil((confige.roomData.curTime - confige.roomData.initialTime)/1000);
             var curShowTime = this.time_waitting - newTime - this.beginTimeStamp;
@@ -935,9 +937,11 @@ cc.Class({
         confige.settleWait = true;
         this.gameBGNode.scorePool.active = false;
         this.canChangeDesk = true;
-        this.gameInfoNode.changeDeskBtnNode.opacity = 255;
-        if(confige.isGoldMode == true)
+        
+        if(confige.isGoldMode == true){
+            this.gameInfoNode.changeDeskBtnNode.opacity = 255;
             this.gameInfoNode.changeDeskBtn.interactable = true;
+        }
         // for(var i in confige.roomPlayer)
         // {
         //     if(confige.roomPlayer[i].isActive == true)
@@ -1140,6 +1144,7 @@ cc.Class({
         //重现下注金额
         if(confige.curReconnectData.state != 1001)
         {
+            this.gameStart = true;
             var curBetCount = 0;
             for(var i in confige.roomPlayer)
             {
@@ -1192,9 +1197,11 @@ cc.Class({
                     this.gamePlayerNode.playerList[this.curBankerChair].getChildByName("banker").active = false;
                     this.gamePlayerNode.lightBgList[this.curBankerChair].active = false;
                 }
-                this.gameInfoNode.changeDeskBtnNode.opacity = 255;
-                if(confige.isGoldMode == true)
+                
+                if(confige.isGoldMode == true){
+                    this.gameInfoNode.changeDeskBtnNode.opacity = 255;
                     this.gameInfoNode.changeDeskBtn.interactable = true;
+                }
                 break;
             case 1002:      //下注阶段
                 // this.statusChange(1);
@@ -1231,9 +1238,9 @@ cc.Class({
                 // this.statusChange(0);
                 break;
             case 1005:      //抢庄阶段
-                if(this.gameMode == 1)
+                if(this.gameMode == 1 && this.cardMode == 2)
                 {
-                    var curPlayerData = confige.curReconnectData.roomInfo.player[this.meChair]
+                    var curPlayerData = confige.curReconnectData.roomInfo.player[this.meChair];
                     if(curPlayerData.isActive == true && curPlayerData.isReady == true)
                     {
                         this.onServerRobBanker();

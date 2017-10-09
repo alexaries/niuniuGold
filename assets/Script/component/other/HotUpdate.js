@@ -9,7 +9,9 @@ cc.Class({
         manifestUrl: cc.RawAsset,
         // updateUI: cc.Node,
         _updating: false,
-        _canRetry: false
+        _canRetry: false,
+        needRestart: false,
+        updateSchedule: -1
     },
 
     checkCb: function (event) {
@@ -31,6 +33,16 @@ cc.Class({
                 this.show();
                 // this.panel.checkBtn.active = false;
                 this.fileProgress.progress = 0;
+
+                this.updateSchedule = function(){
+                    // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "updateSchedule");
+                    // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "progress==="+this.fileProgress.progress);
+                    if(this.fileProgress.progress == 1)
+                        this.restart();
+                    // else
+                        // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "progress != 11111111");
+                };
+                this.schedule(this.updateSchedule,1);
                 // this.panel.byteProgress.progress = 0;
                 break;
             default:
@@ -43,7 +55,7 @@ cc.Class({
     },
 
     updateCb: function (event) {
-        var needRestart = false;
+        
         var failed = false;
         switch (event.getEventCode())
         {
@@ -72,7 +84,7 @@ cc.Class({
                 break;
             case jsb.EventAssetsManager.UPDATE_FINISHED:
                 this.updateInfo.string = 'Update finished. ' + event.getMessage();
-                needRestart = true;
+                this.needRestart = true;
                 break;
             case jsb.EventAssetsManager.UPDATE_FAILED:
                 this.updateInfo.string = 'Update failed. ' + event.getMessage();
@@ -96,23 +108,29 @@ cc.Class({
             this._updating = false;
         }
 
-        if (needRestart) {
-            cc.eventManager.removeListener(this._updateListener);
-            this._updateListener = null;
-            cc.audioEngine.stopAll();
-            // Prepend the manifest's search path
-            var searchPaths = jsb.fileUtils.getSearchPaths();
-            var newPaths = this._am.getLocalManifest().getSearchPaths();
-            console.log(JSON.stringify(newPaths));
-            Array.prototype.unshift(searchPaths, newPaths);
-            // This value will be retrieved and appended to the default search path during game startup,
-            // please refer to samples/js-tests/main.js for detailed usage.
-            // !!! Re-add the search paths in main.js is very important, otherwise, new scripts won't take effect.
-            cc.sys.localStorage.setItem('HotUpdateSearchPaths', JSON.stringify(searchPaths));
-
-            jsb.fileUtils.setSearchPaths(searchPaths);
-            cc.game.restart();
+        if (this.needRestart) {
+            this.restart();
         }
+    },
+
+    restart:function(){
+        this.unschedule(this.updateSchedule);
+
+        cc.eventManager.removeListener(this._updateListener);
+        this._updateListener = null;
+        cc.audioEngine.stopAll();
+        // Prepend the manifest's search path
+        var searchPaths = jsb.fileUtils.getSearchPaths();
+        var newPaths = this._am.getLocalManifest().getSearchPaths();
+        console.log(JSON.stringify(newPaths));
+        Array.prototype.unshift(searchPaths, newPaths);
+        // This value will be retrieved and appended to the default search path during game startup,
+        // please refer to samples/js-tests/main.js for detailed usage.
+        // !!! Re-add the search paths in main.js is very important, otherwise, new scripts won't take effect.
+        cc.sys.localStorage.setItem('HotUpdateSearchPaths', JSON.stringify(searchPaths));
+
+        jsb.fileUtils.setSearchPaths(searchPaths);
+        cc.game.restart();
     },
     
     retry: function () {
