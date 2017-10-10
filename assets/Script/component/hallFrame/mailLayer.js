@@ -31,7 +31,10 @@ cc.Class({
         this.mailViewContent = this.node.getChildByName("mailView").getChildByName("view").getChildByName("content");
         this.mailItemList = [];
         this.getLayer = this.node.getChildByName("getLayer");
-        this.getLayerType = this.getLayer.getChildByName("type").getComponent("cc.Label");
+        // this.getLayerType = this.getLayer.getChildByName("type").getComponent("cc.Label");
+        this.getLayerTitle = this.getLayer.getChildByName("title").getComponent("cc.Label");
+        this.getLayerSend = this.getLayer.getChildByName("send").getComponent("cc.Label");
+        this.getLayerTime = this.getLayer.getChildByName("time").getComponent("cc.Label");
         this.getLayerDes = this.getLayer.getChildByName("des").getComponent("cc.Label");
         this.getLayerIcoNode = this.getLayer.getChildByName("mainIco");
         this.getLayerIco = this.getLayer.getChildByName("mainIco").getComponent("cc.Sprite");
@@ -150,7 +153,9 @@ cc.Class({
             this.getLayerBtn.active = true;
         else 
             this.getLayerBtn.active = false;
-        this.getLayerType.string = data.addresser;
+        this.getLayerTitle.string = data.title;
+        this.getLayerSend.string = "发件人: " + data.addresser;
+        this.getLayerTime.string = "发件时间: " + confige.getDateDay(data.time)+"  "+confige.getDateTime(data.time);
         this.getLayerDes.string = data.content;
         if(confige.curMailData[this.curReadID].affix == false){
             this.getLayerBtn.active = false;

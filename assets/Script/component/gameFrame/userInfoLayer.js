@@ -140,6 +140,7 @@ cc.Class({
         console.log(data);
         var curPlayerData = data;
         this.showGiftUid = data.uid;
+        this.userID.string = data.uid;
         if(confige.meWXHeadFrame != -1)
         {
             confige.getWXHearFrameNoSave(curPlayerData.head,this.userHead);

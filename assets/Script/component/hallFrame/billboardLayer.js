@@ -9,7 +9,12 @@ cc.Class({
             type:cc.Node
         },
 
-        billboardItem:{
+        billboardItem1:{
+            default:null,
+            type:cc.Node
+        },
+
+        billboardItem2:{
             default:null,
             type:cc.Node
         },
@@ -43,7 +48,8 @@ cc.Class({
         this.allGoldRanklistCur = {};
         this.dayGoldRanklistCur = {};
         this.itemBeginY = -45;
-        this.itemOffsetY = -90;
+        this.itemOffsetY2 = -90;
+        this.itemOffsetY1 = -150;
         this.itemList1 = {};
         this.itemList2 = {};
         this.itemCount1 = 0;
@@ -94,19 +100,25 @@ cc.Class({
     createItemWithContent1:function(data){
         for(var i in data)
         {
+            console.log(data[i]);
             this.itemCount1++;
-            var newItem = cc.instantiate(this.billboardItem);
+            var newItem = cc.instantiate(this.billboardItem1);
             this.itemList1[i] = newItem;
             this.itemContent1.addChild(newItem);
-            newItem.y = this.itemBeginY + this.itemOffsetY * i;
+            newItem.y = this.itemBeginY + this.itemOffsetY1 * i;
 
             var itemHead = newItem.getChildByName("head").getComponent("cc.Sprite");
             var goldNum = newItem.getChildByName("goldNum").getComponent("cc.Label");
             var num = newItem.getChildByName("num").getComponent("cc.Label");
             var nick = newItem.getChildByName("nick").getComponent("cc.Label");
+            var userSign = newItem.getChildByName("userSign").getComponent("cc.Label");
             goldNum.string = data[i].gold;
             nick.string = data[i].nickname;
             num.string = (parseInt(i)+1);
+            var newSignature = data[i].signature;
+            if(newSignature.length > 60)
+                newSignature = newSignature.substring(0,60) + "...";
+            userSign.string = data[i].signature;
             if(data[i].head != "")
                 confige.getWXHearFrameNoSave(data[i].head,itemHead);
             var crownIco = newItem.getChildByName("crownIco");
@@ -114,7 +126,7 @@ cc.Class({
             var showCallBack = function(){
                 this.showUserInfo(showCallBack.userDataCur);
             };
-            btnShowInfo.node.on(cc.Node.EventType.TOUCH_START, showCallBack, this);
+            btnShowInfo.node.on(cc.Node.EventType.TOUCH_END, showCallBack, this);
             showCallBack.id = i;
             showCallBack.userDataCur = data[i];
 
@@ -130,17 +142,17 @@ cc.Class({
                 crownIco.active = true;
             }
         }
-        this.itemContent1.height = 450 + (this.itemCount1 - 5) * 90;
+        // this.itemContent1.height = 450 + (this.itemCount1 - 5) * 90;
     },
 
     createItemWithContent2:function(data){
         for(var i in data)
         {
             this.itemCount2++;
-            var newItem = cc.instantiate(this.billboardItem);
+            var newItem = cc.instantiate(this.billboardItem2);
             this.itemList2[i] = newItem;
             this.itemContent2.addChild(newItem);
-            newItem.y = this.itemBeginY + this.itemOffsetY * i;
+            newItem.y = this.itemBeginY + this.itemOffsetY2 * i;
 
             var itemHead = newItem.getChildByName("head").getComponent("cc.Sprite");
             var goldNum = newItem.getChildByName("goldNum").getComponent("cc.Label");
@@ -158,7 +170,7 @@ cc.Class({
             var showCallBack = function(){
                 this.showUserInfo(showCallBack.userDataCur);
             };
-            btnShowInfo.node.on(cc.Node.EventType.TOUCH_START, showCallBack, this);
+            btnShowInfo.node.on(cc.Node.EventType.TOUCH_END, showCallBack, this);
             showCallBack.id = i;
             showCallBack.userDataCur = data[i];
 
@@ -198,8 +210,8 @@ cc.Class({
         this.node.active = true;
         this.dayGoldRanklistCur = data.dayGoldRanklist;
         this.allGoldRanklistCur = data.allGoldRanklist;
-        this.createItemWithContent1(this.dayGoldRanklistCur);
-        this.createItemWithContent2(this.allGoldRanklistCur);
+        this.createItemWithContent1(this.allGoldRanklistCur);
+        this.createItemWithContent2(this.dayGoldRanklistCur);
     },
 
     hideLayer:function(){
