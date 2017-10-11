@@ -200,6 +200,14 @@ cc.Class({
 
         this.tipsBox = this.node.getChildByName("tipsBox");
         this.tipsBoxLabel = this.tipsBox.getChildByName("tips").getComponent("cc.Label");
+
+        this.paomaNode = this.node.getChildByName("paoma");
+        this.paoma = this.node.getChildByName("paoma").getChildByName("content").getChildByName("New Label");
+        this.paomaLabel = this.paoma.getComponent("cc.Label")
+        this.paomaOriText = "";
+        this.paomaLabel.string = this.paomaOriText;
+        this.paomaTextList = [];
+        this.paomaNode.opacity = 0;
     },
 
     startLater: function () {
@@ -1973,4 +1981,67 @@ cc.Class({
             this.betBtnBox.active = false;
         }
     },
+
+    paomaAddOneText:function(textData,paomaTime){
+        console.log("game scene paomaAddOneText@@@@@@@@@@@");
+        this.paomaNode.opacity = 255;
+        if(textData != -1)
+        {
+            this.paomaTextList.push(textData);
+            this.paoma.x = 500;
+            this.paomaLabel.string = textData;
+            console.log("curPaomaString = " + textData);
+            this.paoma.stopAllActions();
+        }
+
+        var paomaCurMoveX = -(this.paoma.width + 500 + 700);
+        var paomaCurMoveT = 15;
+        var paomaCurMove = cc.moveBy(paomaCurMoveT, paomaCurMoveX, 0);
+
+        var finished = function(){//cc.callFunc(function () {
+            if(this.paomaTextList.length == 0)
+            {
+                // this.paomaLabel.string = this.paomaOriText;
+                this.paomaNode.opacity = 0;
+            }else{
+                this.paomaLabel.string = this.paomaTextList[this.paomaTextList.length-1];
+                this.paomaTextList.pop();
+            }
+            this.paoma.x = 500;
+            paomaCurMoveX = -(this.paoma.width + 500 + 700);
+            paomaCurMoveT = (-paomaCurMoveX) / 200 + 2;
+            if(paomaCurMoveT < 10)
+                paomaCurMoveT = 10;
+            if(paomaTime)
+            {
+                var setX = cc.callFunc(function () {
+                    this.paoma.x = 500;
+                },this);
+                var moveAction = cc.moveBy(paomaCurMoveT, paomaCurMoveX, 0);
+                paomaCurMove = cc.repeat(cc.sequence(setX, moveAction), paomaTime);
+            }else{
+                paomaCurMove = cc.moveBy(paomaCurMoveT, paomaCurMoveX, 0);
+            }
+            //console.log("curMoveX = " + this.paomaCurMoveX + "      curMoveT = " + this.paomaCurMoveT);
+        }.bind(this);//, this);
+        
+        finished();
+
+        var paomaCallFunc = cc.callFunc(function () {
+            this.paoma.stopAllActions();
+            finished();
+            this.paoMaSeq = cc.sequence(
+                paomaCurMove,
+                paomaCallFunc
+            );
+            this.paoma.runAction(this.paoMaSeq);
+            //console.log("newnewnew    curMoveX = " + this.paomaCurMoveX + "      curMoveT = " + this.paomaCurMoveT);
+        },this);     
+
+        this.paoMaSeq = cc.sequence(
+            paomaCurMove,
+            paomaCallFunc
+        );
+        this.paoma.runAction(this.paoMaSeq);
+    }, 
 });

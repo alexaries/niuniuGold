@@ -621,6 +621,7 @@ cc.Class({
             cc.audioEngine.pause(confige.audioBgId);
 
         cc.audioEngine.pauseAll();
+        this.soundEnableOri = confige.soundEnable;
         confige.soundEnable = false;
     },
 
@@ -628,7 +629,8 @@ cc.Class({
         if(confige.musicEnable == true)
             cc.audioEngine.resume(confige.audioBgId);
         cc.audioEngine.resumeAll();
-        confige.soundEnable = true;
+        if(this.soundEnableOri == true)
+            confige.soundEnable = true;
     },
 
     beginSayTime:function(){

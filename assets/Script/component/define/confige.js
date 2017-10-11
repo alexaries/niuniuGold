@@ -157,7 +157,7 @@ cfg.roomLimit = {
   limitMaxRate : 1000
 };
 
-cfg.curVersion = "1.19";
+cfg.curVersion = "1.26";
 cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。有事咨询客服，客服微信号：YCYX1818";
 cfg.versionCheck = "1.2.024&KSAJDGFKJASHDFGASHDGAFDGH";
 cfg.resetGameData = function(){
@@ -264,6 +264,10 @@ cfg.getWXHearFrame = function(headUrl,index,cb) {
 };
 
 cfg.getWXHearFrameNoSave = function(headUrl,sprite) {
+  if(headUrl == ""){
+    console.log("fuck@@@@@@@@@")
+    return;
+  }
   console.log("WXHead index 2222");
   // headUrl = headUrl + ".jpg";
   //console.log("WXHead URL === " + headUrl);

@@ -4,7 +4,7 @@
         var previousVersion = cc.sys.localStorage.getItem('currentVersion');
         if(previousVersion == null)
             previousVersion =  "1.0";
-        if(previousVersion < "1.19")
+        if(previousVersion < "1.26")
             cc.sys.localStorage.setItem('HotUpdateSearchPaths',null);
         var hotUpdateSearchPaths = cc.sys.localStorage.getItem('HotUpdateSearchPaths'); 
         if (hotUpdateSearchPaths) { 

@@ -8,6 +8,10 @@ cc.Class({
             default:null,
             type:cc.Node
         },
+        frameHeadOri:{
+            default:null,
+            type:cc.SpriteFrame
+        },
         isInit:false,
     },
 
@@ -25,6 +29,10 @@ cc.Class({
         this.userDiamond = this.node.getChildByName("diamondNode").getChildByName("diamondNum").getComponent("cc.Label");
         this.userCharmCur = this.node.getChildByName("charmNode").getChildByName("charmNum").getComponent("cc.Label");
         this.userCharmAdd = this.node.getChildByName("charmAddNode").getChildByName("charmAdd").getComponent("cc.Label");
+
+        this.userNickEditNode = this.node.getChildByName("playerInfoNode").getChildByName("nickEdit");
+        if(this.userNickEditNode)
+            this.userNickEdit = this.node.getChildByName("playerInfoNode").getChildByName("nickEdit").getComponent("cc.EditBox");
 
         this.btnWXLink = this.node.getChildByName("btnWXLink");
         this.wxLinkIco = this.node.getChildByName("wxLinkIco");
@@ -87,6 +95,14 @@ cc.Class({
         this.userSignEdit.string = "";
     },
 
+    btnChangeNick:function(){
+        console.log("btnChangeNick@@@@@@@@");
+        this.userNickEditNode.active = true;
+        this.userNickEdit.setFocus();
+        this.userNick.string = "";
+        this.userNickEdit.string = "";
+    },
+
     editBegin:function(){
         console.log("editBegin@@@@@@@@");
     },
@@ -94,13 +110,39 @@ cc.Class({
     editEnd:function(){
         var self = this;
         console.log("editEnd@@@@@@@@");
-        this.userSign.string = this.userSignEdit.string;
+        
         pomelo.request("connector.account.changeSignature",{signature:this.userSignEdit.string}, function(data) {
-            console.log("更换签名成功");
-            confige.curSignature = self.userSign.string;
+            console.log(data);
+            if(data.flag == true){
+                self.userSign.string = self.userSignEdit.string;
+                console.log("更换签名成功");
+                confige.curSignature = self.userSign.string;
+            }
+            
         });
               
         this.userSignEditNode.active = false;
+    },
+
+    editNickEnd:function(){
+        var self = this;
+        console.log("editNickEnd@@@@@@@@");
+        console.log(this.userNickEdit.string);
+        pomelo.request("connector.account.changeNickName",{nickname:this.userNickEdit.string}, function(data) {
+            console.log(data);
+            if(data.flag == true){
+                self.userNick.string = self.userNickEdit.string;
+                console.log("更换昵称成功");
+                confige.userInfo.nickname = self.userNick.string;
+                self.parent.updateNick();
+                self.parent.showTips("修改成功");
+            }else{
+                self.userNick.string = confige.userInfo.nickname;
+                self.parent.showTips(data.msg);
+            }
+        });
+              
+        this.userNickEditNode.active = false;
     },
 
     showLayer:function(userType,data){
@@ -141,10 +183,14 @@ cc.Class({
         var curPlayerData = data;
         this.showGiftUid = data.uid;
         this.userID.string = data.uid;
-        if(confige.meWXHeadFrame != -1)
-        {
-            confige.getWXHearFrameNoSave(curPlayerData.head,this.userHead);
+
+        if(curPlayerData.head == ""){
+            console.log("dasdasd@@@@@@")
+            this.userHead.spriteFrame = this.frameHeadOri;
         }
+        else
+            confige.getWXHearFrameNoSave(curPlayerData.head,this.userHead);
+
         this.userGold.string = curPlayerData.gold;
         // this.userDiamond.string = curPlayerData.diamond;
         this.userSign.string = curPlayerData.signature;
@@ -163,10 +209,12 @@ cc.Class({
         console.log("other data === ");
         console.log(data);
         var curPlayerData = data.playerInfo;
-        if(confige.meWXHeadFrame != -1)
-        {
+
+        if(curPlayerData.head == "")
+            this.userHead.spriteFrame = this.frameHeadOri;
+        else
             confige.getWXHearFrameNoSave(curPlayerData.head,this.userHead);
-        }
+
         this.userGold.string = curPlayerData.gold;
         // this.userDiamond.string = curPlayerData.diamond;
         this.userSign.string = curPlayerData.signature;
@@ -182,6 +230,9 @@ cc.Class({
     },
 
     hideLayer:function(){
+        this.userSignEditNode.active = false;
+        if(this.userNickEditNode)
+            this.userNickEditNode.active = false;
         this.node.active = false;
     },
 });

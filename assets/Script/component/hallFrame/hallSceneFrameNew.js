@@ -650,6 +650,10 @@ cc.Class({
         cc.sys.openURL(confige.payURL);
     },
 
+    updateNick:function(){
+        this.playerNick.string = confige.userInfo.nickname;
+    },
+
     updateDiamond:function(){
         this.diamondNum.string = confige.curDiamond;
     },

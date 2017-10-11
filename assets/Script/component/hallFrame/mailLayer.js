@@ -19,6 +19,14 @@ cc.Class({
             default:null,
             type:cc.Node
         },
+        frameDiamond:{
+            default:null,
+            type:cc.SpriteFrame
+        },
+        frameGold:{
+            default:null,
+            type:cc.SpriteFrame
+        },
         isInit:false,
     },
 
@@ -35,10 +43,14 @@ cc.Class({
         this.getLayerTitle = this.getLayer.getChildByName("title").getComponent("cc.Label");
         this.getLayerSend = this.getLayer.getChildByName("send").getComponent("cc.Label");
         this.getLayerTime = this.getLayer.getChildByName("time").getComponent("cc.Label");
-        this.getLayerDes = this.getLayer.getChildByName("des").getComponent("cc.Label");
+        this.getDesView = this.getLayer.getChildByName("desView").getComponent("cc.ScrollView");
+        this.getDesContent = this.getLayer.getChildByName("desView").getChildByName("view").getChildByName("content");
+        this.getDesNode = this.getDesContent.getChildByName("des");
+        this.getLayerDes = this.getDesNode.getComponent("cc.Label");
         this.getLayerIcoNode = this.getLayer.getChildByName("mainIco");
         this.getLayerIco = this.getLayer.getChildByName("mainIco").getComponent("cc.Sprite");
         this.getLayerBtn = this.getLayer.getChildByName("btnGetGift");
+        this.getLyaerNum = this.getLayer.getChildByName("giftNum").getComponent("cc.Label");
         this.curReadNode = null;
         this.curReadID = null;
         this.beginY = -50;
@@ -149,6 +161,7 @@ cc.Class({
             // this.getLayerIco.spriteFrame = this.frameSys;
         // else
             // this.getLayerIco.spriteFrame = this.frameUser;
+        this.getLyaerNum.string = "";
         if(data.gainState == true)
             this.getLayerBtn.active = true;
         else 
@@ -157,12 +170,35 @@ cc.Class({
         this.getLayerSend.string = "发件人: " + data.addresser;
         this.getLayerTime.string = "发件时间: " + confige.getDateDay(data.time)+"  "+confige.getDateTime(data.time);
         this.getLayerDes.string = data.content;
+
+        
+        var self = this;
+        this.scheduleOnce(function() {
+            console.log("this.getDesNode.height====="+self.getDesNode.height);
+            if(self.getDesNode.height > 290)
+            {
+                self.getDesContent.height = self.getDesNode.height + 40;
+                self.getDesView.vertical = true;
+                console.log("1231231231231231");
+            }else{
+                self.getDesContent.height = 300;
+                self.getDesView.vertical = false;
+                console.log("222222222222222");
+            }
+        }, 0.05);
+        
         if(confige.curMailData[this.curReadID].affix == false){
             this.getLayerBtn.active = false;
             this.getLayerIcoNode.active = false;
         }else{
             // this.getLayerBtn.active = true;
             this.getLayerIcoNode.active = true;
+            if(confige.curMailData[this.curReadID].affix.type == "diamond")
+                this.getLayerIco.spriteFrame = this.frameDiamond;
+            if(confige.curMailData[this.curReadID].affix.type == "gold")
+                this.getLayerIco.spriteFrame = this.frameGold;
+            this.getLyaerNum.string = confige.curMailData[this.curReadID].affix.value;
+
         }
         this.getLayer.active = true;
         confige.curMailData[this.curReadID].readState = false;

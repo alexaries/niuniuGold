@@ -44,6 +44,8 @@ cc.Class({
             this.btn_loginNode1.active = false;
             this.btn_loginNode2.x = 0;
         }
+        this.btn_loginNode1.active = false;
+        this.btn_loginNode2.x = 0;
         console.log("curUsePlatform === " + cc.sys.platform);
         if(cc.sys.platform == cc.sys.DESKTOP_BROWSER)
         {
