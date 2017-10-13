@@ -261,6 +261,7 @@ cc.Class({
         this.playerActiveList[curIndex] = true;
 
         this.leaveNodeList[curIndex].active = false;
+        this.playerList[curIndex].getChildByName("banker").active = false;
     },
 
     playerQuit:function(chair){
@@ -292,6 +293,7 @@ cc.Class({
         this.playerActiveList[curIndex] = false;
 
         this.leaveNodeList[curIndex].active = false;
+        this.playerList[curIndex].getChildByName("banker").active = false;
     },
 
     showNiuType:function(chair, type, doCardMove){

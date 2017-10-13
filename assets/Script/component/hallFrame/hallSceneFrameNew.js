@@ -35,7 +35,8 @@ cc.Class({
             this.btn_exit.interactable = false;
         }
 
-        
+        this.check_inviteCode();
+
         console.log("fuck hall on load!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         pomelo.clientScene = this;
         confige.curGameScene = this;
@@ -985,4 +986,38 @@ cc.Class({
         });
     },
 
+    check_inviteCode:function(){
+        var self = this;
+        var xmlHttp = this.createXMLHttpRequest();
+        var httpCallback = function(){
+            if (xmlHttp.readyState==4)
+            {// 4 = "loaded"
+                if (xmlHttp.status==200)
+                {// 200 = OK
+                  var curReturn = JSON.parse(xmlHttp.responseText);
+                  console.log(curReturn);
+                  if(curReturn.errcode == 0){
+                        confige.h5InviteCode = curReturn.invite_code;
+                        console.log("invite_code ===" + curReturn.invite_code);
+                  }else{
+                        console.log("invite_code ===0000");
+                        confige.h5InviteCode = 0;
+                  }
+                  // self.h5ShareInit();
+                }
+            }
+            
+        };
+
+        this.scheduleOnce(function() {
+            var url = "http://pay.5d8d.com/niu_admin.php/Api/getInviteCode?game_uid="+confige.userInfo.playerId;
+            console.log("url====="+ url);
+            xmlHttp.onreadystatechange = httpCallback;
+            xmlHttp.open("GET", url, true);// 异步处理返回   
+            xmlHttp.setRequestHeader("Content-Type",  
+                    "application/x-www-form-urlencoded;");  
+            xmlHttp.send();
+        }, 0.1);
+    },
+    
 });

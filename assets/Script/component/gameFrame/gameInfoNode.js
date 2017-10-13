@@ -22,9 +22,10 @@ cc.Class({
             this.h5ShareNode = this.node.getChildByName("h5Share");
             this.h5ShareNode.opacity = 0;
             this.h5ShareNode.active = false;
-            this.check_inviteCode();
+            
             // this.h5ShareInit();
         }
+        this.check_inviteCode();
         gameData.gameInfoNode = this;
         //处理当前房间信息
         this.cardMode = confige.roomData.cardMode;
@@ -535,10 +536,13 @@ cc.Class({
 
         this.btn_inviteFriend.interactable = false;
 
+        var newShareURL = "http://pay.5d8d.com/index.php/gold/myqrcode"
+        newShareURL += "?invite_code=" + confige.h5InviteCode;
+        
         if(confige.curUsePlatform == 1)
-            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", curTitle, curDes, confige.shareURL, 0);
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", curTitle, curDes, newShareURL, 0);
         else if(confige.curUsePlatform == 2)
-            jsb.reflection.callStaticMethod("JSCallOC", "WXShareTitle:andDes:andUrl:andType:",curTitle, curDes, confige.shareURL, 0);
+            jsb.reflection.callStaticMethod("JSCallOC", "WXShareTitle:andDes:andUrl:andType:",curTitle, curDes, newShareURL, 0);
 
         if(confige.curUsePlatform == 3)
         {
@@ -835,8 +839,9 @@ cc.Class({
                         console.log("invite_code ===" + curReturn.invite_code);
                   }else{
                         console.log("invite_code ===0000");
+                        confige.h5InviteCode = 0;
                   }
-                  self.h5ShareInit();
+                  // self.h5ShareInit();
                 }
             }
             

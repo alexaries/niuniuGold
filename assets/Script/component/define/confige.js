@@ -154,10 +154,10 @@ cfg.roomLimit = {
     "4" : 5000
   },
   limitMinRate : 100,
-  limitMaxRate : 1000
+  limitMaxRate : 4000
 };
 
-cfg.curVersion = "1.26";
+cfg.curVersion = "1.27";
 cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。有事咨询客服，客服微信号：YCYX1818";
 cfg.versionCheck = "1.2.024&KSAJDGFKJASHDFGASHDGAFDGH";
 cfg.resetGameData = function(){
@@ -207,7 +207,7 @@ cfg.WXHeadFrameList = {};
 
 //
 cfg.payURL = "http://pay.5d8d.com/index.php/download/gold";
-cfg.shareURL = "http://pay.5d8d.com/index.php/download/gold"; //"http://game.37yiyou.cn/download/nngame/download.html?from=groupmessage";
+cfg.shareURL = "http://pay.5d8d.com/index.php/gold/myqrcode"//?invite_code=0";   //"http://pay.5d8d.com/index.php/download/gold";
 cfg.shareTitle = "我在玩欢乐赢棋牌,快来一起玩吧";
 cfg.shareDes = "我在玩欢乐赢棋牌,快来一起玩吧";
 //

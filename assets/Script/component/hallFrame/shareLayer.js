@@ -25,21 +25,24 @@ cc.Class({
         this.shareBtn1.interactable = false;
         this.shareBtn2.interactable = false;
         var index = parseInt(customEventData);
+        var newShareURL = "http://pay.5d8d.com/index.php/gold/myqrcode"
+        newShareURL += "?invite_code=" + confige.h5InviteCode;
+        
         if(index == 0){
             cc.log("分享给好友");
             if(confige.curUsePlatform == 1)
             {
-                jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", confige.shareTitle, confige.shareDes, confige.shareURL, 0);
+                jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", confige.shareTitle, confige.shareDes, newShareURL, 0);
             }else if(confige.curUsePlatform == 2){
-                jsb.reflection.callStaticMethod("JSCallOC", "WXShareTitle:andDes:andUrl:andType:",confige.shareTitle, confige.shareDes, confige.shareURL, 0);
+                jsb.reflection.callStaticMethod("JSCallOC", "WXShareTitle:andDes:andUrl:andType:",confige.shareTitle, confige.shareDes, newShareURL, 0);
             }
         }else if(index == 1){
             cc.log("分享到朋友圈");
             if(confige.curUsePlatform == 1)
             {
-                jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", confige.shareTitle, confige.shareDes, confige.shareURL, 1);
+                jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", confige.shareTitle, confige.shareDes, newShareURL, 1);
             }else if(confige.curUsePlatform == 2){
-                jsb.reflection.callStaticMethod("JSCallOC", "WXShareTitle:andDes:andUrl:andType:",confige.shareTitle, confige.shareDes, confige.shareURL, 1);
+                jsb.reflection.callStaticMethod("JSCallOC", "WXShareTitle:andDes:andUrl:andType:",confige.shareTitle, confige.shareDes, newShareURL, 1);
             }
         }
         if(confige.curUsePlatform == 3)
