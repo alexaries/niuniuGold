@@ -98,6 +98,8 @@ cc.Class({
         if (cc.sys.isNative) {
             this.updateLayer.checkUpdate();
         }
+
+        // this.testLabel = this.node.getChildByName("testLabel").getComponent("cc.Label");
     },
     
     start: function () {
@@ -491,19 +493,28 @@ cc.Class({
     },
 
     wxLoginJavaCall:function(code){
+        // this.testLabel.string = "微信授权登陆成功,得到code";
         var self = this;
         var xmlHttp = this.createXMLHttpRequest();
 
         var httpCallback = function(){
             var loginJson = JSON.parse(xmlHttp.responseText);
             confige.WX_LOGIN_RETURN = loginJson;
-            confige.WX_ACCESS_TOKEN = loginJson.access_token;
-            confige.WX_OPEN_ID = loginJson.openid;
-            confige.WX_UNIONID = loginJson.unionid;
-            confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
-            pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
-            cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
-            cc.sys.localStorage.setItem("wxLastLoginDay",confige.getDayCount());
+            if(loginJson.openid && loginJson.access_token)
+            {
+                // self.testLabel.string = "微信授权登陆成功,得到openid和token";
+                confige.WX_ACCESS_TOKEN = loginJson.access_token;
+                confige.WX_OPEN_ID = loginJson.openid;
+                confige.WX_UNIONID = loginJson.unionid;
+                confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
+                pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
+                cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
+                cc.sys.localStorage.setItem("wxLastLoginDay",confige.getDayCount());
+            }else{
+                // self.testLabel.string = "登陆失败,没有openid和token";
+                console.log("login error");
+            }
+            
         };
 
         this.scheduleOnce(function() {
@@ -522,6 +533,7 @@ cc.Class({
     },
 
     wxRefreshLogin:function(){
+        // this.testLabel.string = "进行微信免授权登陆";
         // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "微信刷新登陆111");
         var self = this;
         var xmlHttp = this.createXMLHttpRequest();
