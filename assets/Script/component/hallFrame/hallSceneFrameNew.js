@@ -63,6 +63,8 @@ cc.Class({
         this.playerNick.string = confige.userInfo.nickname;
         this.playerId.string = confige.userInfo.uid;
         this.newMail = this.bottomNode.getChildByName("newMail");
+        this.newMail.runAction(cc.repeatForever(cc.sequence(cc.fadeTo(0.25,255),cc.fadeTo(0.25,155),cc.fadeTo(0.25,255),cc.delayTime(2))));
+        this.newMail.active = false;
         this.checkMail();
 
         this.diamondNum = this.diamondNode.getChildByName("diamondNum").getComponent("cc.Label");

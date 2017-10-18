@@ -923,7 +923,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 800,
-      "height": 1100
+      "height": 1600
     },
     "_children": [
       {
@@ -1059,8 +1059,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 774,
-      "height": 1034
+      "width": 770,
+      "height": 1544
     },
     "_children": [],
     "_rotationX": 0,

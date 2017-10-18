@@ -46,8 +46,10 @@ cc.Class({
         }else if(index == 2){    //create
             console.log("willCreateRoom")
             console.log("this.basicType === ",this.basicType);
+            console.log("this.expendMode === ",this.expendMode);
+            this.saveRoomInfo();
             pomelo.request("connector.entryHandler.sendData", {"code" : "createInitiativeRoom","params" : {
-                gameType:this.gameType,rate:this.curRate,cardMode:this.cardMode,bankerMode:this.bankerMode,basicType:this.basicType}}, function(data) {
+                gameType:this.gameType,rate:this.curRate,cardMode:this.cardMode,bankerMode:this.bankerMode,basicType:this.basicType,coverCharge:this.expendMode}}, function(data) {
                     console.log("create room OK@@@@@@@@@@");
                     console.log(data);
                     if(data.flag == false)
@@ -59,17 +61,14 @@ cc.Class({
     },
 
     initCreateLayer:function(){
-        this.gameType = "niuniu";
-        this.rate = 0;
-        this.cardMode = 2;
-        this.bankerMode = 1;
-        this.basicType = 0;
+        
         this.gameModeSelect = this.createLayer.getChildByName("gameModeSelect");
         this.cardModeSelect = this.createLayer.getChildByName("cardModeSelect");
         this.bankerModeSelect = this.createLayer.getChildByName("bankerModeSelect");
         this.basicModeSelect = this.createLayer.getChildByName("basicModeSelect");
         this.basicModeSelect2 = this.createLayer.getChildByName("basicModeSelect2");
         this.rateModeSelect = this.createLayer.getChildByName("rateModeSelect");
+        this.expendModeSelect = this.createLayer.getChildByName("expendModeSelect");
         this.enterLimitLabel = this.createLayer.getChildByName("enterLimit").getChildByName("limitNum").getComponent("cc.Label");
         this.leaveLimitLabel = this.createLayer.getChildByName("leaveLimit").getChildByName("limitNum").getComponent("cc.Label");
 
@@ -77,10 +76,119 @@ cc.Class({
         this.rateBasicList[0] = 100;
         this.rateBasicList[1] = 500;
         this.rateBasicList[2] = 1000;
-        this.curRate = 10;
+
         this.rateEditBox = this.rateModeSelect.getChildByName("rateEditBox").getComponent("cc.EditBox");
+
+        this.initCreateData();
+    },
+
+    initCreateData:function(){
+        console.log("initCreateData@@@@@@@@@@@@")
+        if(cc.sys.localStorage.getItem('roomInfo') == null)    //首次进入游戏
+        {   
+            this.curRoomInfo = {
+                gameType : "niuniu",
+                rate : 10,
+                cardMode : 1,
+                bankerMode : 1,
+                basicType : 0,
+                expendMode : 1
+            };
+            cc.sys.localStorage.setItem('roomInfo', JSON.stringify(this.curRoomInfo));
+        }else{
+            this.curRoomInfo = JSON.parse(cc.sys.localStorage.getItem('roomInfo'));
+            if(this.curRoomInfo.rate == null)
+            {
+                this.curRoomInfo = {
+                    gameType : "niuniu",
+                    rate : 10,
+                    cardMode : 1,
+                    bankerMode : 1,
+                    basicType : 0,
+                    expendMode : 1
+                };
+                cc.sys.localStorage.setItem('roomInfo', JSON.stringify(this.curRoomInfo));
+            }
+            if(this.curRoomInfo.rate222 == null)
+            {
+                console.log("fuck nullllllllllll@@@@@@@")
+            }
+        }
+
+        this.gameType = this.curRoomInfo.gameType;
+        this.rate = this.curRoomInfo.rate;
+        this.cardMode = this.curRoomInfo.cardMode;
+        this.bankerMode = this.curRoomInfo.bankerMode;
+        this.basicType = this.curRoomInfo.basicType;
+        this.expendMode = this.curRoomInfo.expendMode;
+        console.log(this.curRoomInfo);
+        this.curRate = this.rate;
+        this.rateEditBox.string = this.curRate;
         this.enterLimitLabel.string = this.curRate*100;
         this.leaveLimitLabel.string = this.curRate*50
+
+        this.gameModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        this.gameModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        if(this.gameType == "niuniu")
+            this.gameModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        else
+            this.gameModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+
+        this.cardModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        this.cardModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        if(this.cardMode == 1)
+            this.cardModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        else
+            this.cardModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+
+        this.bankerModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        this.bankerModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        this.bankerModeSelect.getChildByName("toggle3").getComponent("cc.Toggle").isChecked = false;
+        this.bankerModeSelect.getChildByName("toggle4").getComponent("cc.Toggle").isChecked = false;
+        if(this.bankerMode == 1)
+            this.bankerModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        else if(this.bankerMode == 3)
+            this.bankerModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+        else if(this.bankerMode == 5)
+            this.bankerModeSelect.getChildByName("toggle4").getComponent("cc.Toggle").isChecked = true;
+
+        if(this.basicType == 4 || this.basicType == 5)
+        {
+            this.basicModeSelect.active = false;
+            this.basicModeSelect2.active = true;
+        }
+        this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        if(this.basicType == 0)
+            this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        else if(this.basicType == 1)
+            this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+        else if(this.basicType == 4)
+            this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        else if(this.basicType == 5)
+            this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+
+        this.expendModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        this.expendModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        if(this.expendMode == 1)
+            this.expendModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        else if(this.expendMode == 2)
+            this.expendModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+    },
+
+    saveRoomInfo:function(){
+        console.log("saveRoomInfo@@@@@@@@@@@@")
+        this.curRoomInfo = {
+            gameType : this.gameType,
+            rate : this.curRate,
+            cardMode : this.cardMode,
+            bankerMode : this.bankerMode,
+            basicType : this.basicType,
+            expendMode : this.expendMode
+        };
+        cc.sys.localStorage.setItem('roomInfo', JSON.stringify(this.curRoomInfo));
     },
 
     initJoinLayer:function(){
@@ -193,6 +301,11 @@ cc.Class({
         console.log("selectBasicMode   =====   "+index);
         this.basicType = index;
     },
+    selectExpendMode:function(event, customEventData){
+        var index = parseInt(customEventData);
+        console.log("selectExpendMode   =====   "+index);
+        this.expendMode = index;
+    },
     selectRateMode:function(event, customEventData){
         var index = parseInt(customEventData);
         console.log("selectRateMode   =====   "+index);
@@ -208,21 +321,14 @@ cc.Class({
         var newRate = parseInt(this.rateEditBox.string);
         if(this.rateEditBox.string == "")
             this.rateEditBox.string = 10;
-            this.curRate = parseInt(this.rateEditBox.string);
-            this.enterLimitLabel.string = this.curRate*100;
-            this.leaveLimitLabel.string = this.curRate*50;
+            
         if(newRate < 10)
-        {
             this.rateEditBox.string = 10;
-            this.curRate = parseInt(this.rateEditBox.string);
-            this.enterLimitLabel.string = this.curRate*100;
-            this.leaveLimitLabel.string = this.curRate*50;
-        }else if(newRate > 5000){
+        else if(newRate > 5000)
             this.rateEditBox.string = 5000;
-            this.curRate = parseInt(this.rateEditBox.string);
-            this.enterLimitLabel.string = this.curRate*100;
-            this.leaveLimitLabel.string = this.curRate*50;
-        }
+        this.curRate = parseInt(this.rateEditBox.string);
+        this.enterLimitLabel.string = this.curRate*100;
+        this.leaveLimitLabel.string = this.curRate*50;
     },
 
     cleanRoomId:function(){

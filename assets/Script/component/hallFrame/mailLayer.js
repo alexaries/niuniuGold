@@ -35,6 +35,7 @@ cc.Class({
     },
 
     onInit:function(){
+        this.canSendState = true;
         console.log("maillayer init @@@@@@@@")
         this.mailViewContent = this.node.getChildByName("mailView").getChildByName("view").getChildByName("content");
         this.mailItemList = [];
@@ -141,16 +142,46 @@ cc.Class({
     },
 
     getLayerBtnClick:function(){
+        // for(var i=0;i<10;i++)
+            // this.getLayerBtnClick2();
         var self = this;
+        if(self.canSendState == false){
+            console.log("拦截事件成功")
+            return;
+        }
+        self.canSendState = false;
         pomelo.request("connector.mail.gainAffix",{"mailId" : confige.curMailData[self.curReadID].id}, function(data) {
             console.log("getMail OK");
             console.log(data);
-            self.curReadNode.getChildByName("btnGetGift").active = false;
-            self.curReadNode.getChildByName("getLabel").active = true;
-            confige.curMailData[self.curReadID].gainState = false;
-            self.getLayerBtn.active = false;
-            if(data.flag)
+            if(data.flag){
+                self.curReadNode.getChildByName("btnGetGift").active = false;
+                self.curReadNode.getChildByName("getLabel").active = true;
+                confige.curMailData[self.curReadID].gainState = false;
+                self.getLayerBtn.active = false;
                 self.parent.rewardLayer.showMail(data.affix.value,data.affix.type);
+            }
+            self.canSendState = true;
+        });
+    },
+
+    getLayerBtnClick2:function(){
+        var self = this;
+        if(self.canSendState == false){
+            console.log("拦截事件成功")
+            return;
+        }
+        self.canSendState = false;
+        pomelo.request("connector.mail.gainAffix",{"mailId" : confige.curMailData[self.curReadID].id}, function(data) {
+            console.log("getMail OK");
+            console.log(data);
+            if(data.flag){
+                self.curReadNode.getChildByName("btnGetGift").active = false;
+                self.curReadNode.getChildByName("getLabel").active = true;
+                confige.curMailData[self.curReadID].gainState = false;
+                self.getLayerBtn.active = false;
+                self.parent.rewardLayer.showMail(data.affix.value,data.affix.type);
+            }
+            self.canSendState = true;
         });
     },
 

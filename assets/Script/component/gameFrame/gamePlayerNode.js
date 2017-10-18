@@ -262,6 +262,9 @@ cc.Class({
 
         this.leaveNodeList[curIndex].active = false;
         this.playerList[curIndex].getChildByName("banker").active = false;
+
+        if(gameData.gameMainScene.timeRun == false && gameData.gameMainScene.gameStart == false)
+            gameData.gameMainScene.showGameStatusNew(0,7);
     },
 
     playerQuit:function(chair){

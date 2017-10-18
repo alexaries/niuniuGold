@@ -541,17 +541,22 @@ cc.Class({
         var httpCallback = function(){
             var loginJson = JSON.parse(xmlHttp.responseText);
             confige.WX_LOGIN_RETURN = loginJson;
-            confige.WX_ACCESS_TOKEN = loginJson.access_token;
-            confige.WX_OPEN_ID = loginJson.openid;
-            confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
-            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_REFRESH_TOKEN");
-            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.refresh_token);
-            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_OPEN_ID");
-            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.openid);
-            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_ACCESS_TOKEN");
-            // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.access_token);
-            pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
-            cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
+            if(loginJson.openid && loginJson.access_token)
+            {
+                confige.WX_ACCESS_TOKEN = loginJson.access_token;
+                confige.WX_OPEN_ID = loginJson.openid;
+                confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
+                // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_REFRESH_TOKEN");
+                // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.refresh_token);
+                // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_OPEN_ID");
+                // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.openid);
+                // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", "WX_ACCESS_TOKEN");
+                // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.access_token);
+                pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
+                cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
+            }else{
+                console.log("refresh error");
+            }
         };
 
         this.scheduleOnce(function() {

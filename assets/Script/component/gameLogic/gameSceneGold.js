@@ -15,6 +15,8 @@ cc.Class({
     },
 
     onLoad: function () {
+        this.timeRun = false;
+        this.statusIndex = 0;
         confige.gameBeginWait = false;
         confige.goldNotEnoughOut = false;
         gameData.gameMainScene = this;
@@ -445,6 +447,7 @@ cc.Class({
             var curShowTime = this.time_waitting - newTime - this.beginTimeStamp;
             console.log("timestemp===",this.beginTimeStamp);
             console.log("timestemp2222===",curShowTime);
+
             if(confige.roomData.initiativeFlag == false)
             {
                 if(curShowTime > 1)
@@ -505,15 +508,25 @@ cc.Class({
         }
         this.gameStatusNew.stopAllActions();
         this.gameStatusTime.string = times;
+        this.timeRun = true;
         switch(index){
             case 0:
-                this.gameStatusString.string = "游戏即将开始:";
+                this.statusIndex = 0;
+                this.gameStatusString.string = "游戏即将开始:"+times;
                 break;
             case 1:
-                this.gameStatusString.string = "抢庄中:";
+                this.statusIndex = 1;
+                this.gameStatusString.string = "抢庄中:"+times;
                 break;
             case 2:
-                this.gameStatusString.string = "下注中:";
+                this.statusIndex = 2;
+                this.gameStatusString.string = "下注中:"+times;
+                break;
+            case 3:
+                this.timeRun = false;
+                this.gameStatusString.string = "等待其他玩家...";
+                this.gameStatusTime.string = "";
+                return;
                 break;
         }
         var repeatTimes = times;
@@ -525,8 +538,17 @@ cc.Class({
                 self.gameStatusString.string = "";
                 self.gameStatusTime.string = "";
                 self.unschedule(self.gameStatusTimeSchedule);
+                self.timeRun = false;
+                if(self.gameStart == false)
+                    self.showGameStatusNew(3,3);
             }else{
-                self.gameStatusTime.string = repeatTimes;
+                if(self.statusIndex == 0)
+                    self.gameStatusString.string = "游戏即将开始:"+repeatTimes;
+                else if(self.statusIndex == 1)
+                    self.gameStatusString.string = "抢庄中:"+repeatTimes;
+                else if(self.statusIndex == 2)
+                    self.gameStatusString.string = "下注中:"+repeatTimes;
+                // self.gameStatusTime.string = repeatTimes;
             }
         };
         this.schedule(this.gameStatusTimeSchedule,1);
@@ -1928,6 +1950,21 @@ cc.Class({
                 this.gameAniNode.showScoreAni(confige.getCurChair(i),-curRate);
             }
         }
+    },
+
+    winCharge:function(number,chair){
+        var self = this;
+
+        var showCharge = function(){
+            console.log(self.gamePlayerNode.playerInfoList);
+            console.log(confige.getCurChair(chair));
+            self.gamePlayerNode.playerScoreList[chair] -= number;
+            self.gamePlayerNode.playerInfoList[confige.getCurChair(chair)].setScore(self.gamePlayerNode.playerScoreList[chair]);
+            self.gameAniNode.showScoreAni(confige.getCurChair(chair),-number);
+        };
+        this.scheduleOnce(showCharge,5);
+
+        
     },
 
     lottoAward:function(lottoData){

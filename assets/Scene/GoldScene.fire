@@ -1259,7 +1259,7 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 1,
+      "x": 0.5,
       "y": 0.5
     },
     "_contentSize": {
@@ -1274,7 +1274,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 35,
+      "x": 0,
       "y": 25
     },
     "_skewX": 0,
@@ -1357,7 +1357,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "0b1dcNN83BCDLgjQyJuDSJ6",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 32
