@@ -1045,7 +1045,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "e588blKp4pFPbznSMY1sVzG",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 25
@@ -1197,7 +1197,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "2f150H68p1O7YDBXH9WEeWV",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 29
@@ -1339,7 +1339,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -150,
+      "x": -257,
       "y": 70
     },
     "_skewX": 0,
@@ -1643,7 +1643,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 150,
+      "x": 264,
       "y": 70
     },
     "_skewX": 0,
@@ -1795,7 +1795,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -292,
+      "x": -450,
       "y": 70
     },
     "_skewX": 0,
@@ -1955,7 +1955,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "eaf243aV+NF/5auClavxCes",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 49
@@ -2206,7 +2206,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 429,
-      "y": 100
+      "y": 50
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -2709,7 +2709,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "668a0QXAHBNILMQfksFrdSw",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 73
@@ -2951,7 +2951,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 401,
-      "y": -157
+      "y": -100
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -11455,7 +11455,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "f1540+UqY1MbJpcSKbLuJtk",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 291
@@ -11616,7 +11616,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "0d73dKNoWNJT4IDnme5sVYF",
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "groupIndex": 0
@@ -12272,7 +12272,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "bd3d0PGOoVFT7wLvymmiKdH",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 311
@@ -20412,7 +20412,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "ca943GraPlJRKOksR1/uAqC",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 509
@@ -20492,7 +20492,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "16463/zJPxHDYdcZQwjOUcw",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 511
@@ -20562,7 +20562,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 95,
+      "x": -27,
       "y": 182
     },
     "_skewX": 0,
@@ -20572,7 +20572,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "b3fc0e3iLNPkZpq6zfThFab",
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 513
@@ -20642,7 +20642,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 95,
+      "x": -27,
       "y": 182
     },
     "_skewX": 0,
@@ -20732,7 +20732,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "41d2a0hT0NPJbGaA1Ipa+sJ",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 517
@@ -20882,7 +20882,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "d8255Afw4ZKco4dmhDrXRAW",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 521
@@ -21039,7 +21039,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "5aba5KyKnxFFrAdBtsxhuWP",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 535
@@ -21479,7 +21479,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "d9542a9gk1HCLqxk6w6ODbP",
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 547
@@ -21538,7 +21538,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "5b5fdjtXSJCg6pazKWi0tUv",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 540

@@ -157,7 +157,7 @@ cfg.roomLimit = {
   limitMaxRate : 4000
 };
 
-cfg.curVersion = "1.32";
+cfg.curVersion = "1.51";
 cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。有事咨询客服，客服微信号：YCYX1818";
 cfg.versionCheck = "1.2.024&KSAJDGFKJASHDFGASHDGAFDGH";
 cfg.resetGameData = function(){
