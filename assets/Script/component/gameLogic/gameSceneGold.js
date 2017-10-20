@@ -164,23 +164,27 @@ cc.Class({
         this.betNumMax = 20;
         if(this.isMingCardQZ == false)
         {
-            
-            if(confige.roomData.basicType == 0)
-            {
-                this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 1*this.basicScore;
-                this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 2*this.basicScore;
-                this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 3*this.basicScore;
-                this.betBtnBox.getChildByName("bet4").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
-                this.betNumMax = 5;
-                this.niuniuBetType = 0;
-            }else if(confige.roomData.basicType == 1){
-                this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 1*this.basicScore;
-                this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
-                this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 10*this.basicScore;
-                this.betBtnBox.getChildByName("bet4").getChildByName("Label").getComponent("cc.Label").string = 20*this.basicScore;
-                this.betNumMax = 20;
-                this.niuniuBetType = 1;
-            }
+            this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
+            this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 10*this.basicScore;
+            this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 20*this.basicScore;
+            this.betNumMax = 20;
+            this.niuniuBetType = 1;   
+            // if(confige.roomData.basicType == 0)
+            // {
+            //     this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 1*this.basicScore;
+            //     this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 2*this.basicScore;
+            //     this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 3*this.basicScore;
+            //     this.betBtnBox.getChildByName("bet4").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
+            //     this.betNumMax = 5;
+            //     this.niuniuBetType = 0;
+            // }else if(confige.roomData.basicType == 1){
+            //     this.betBtnBox.getChildByName("bet1").getChildByName("Label").getComponent("cc.Label").string = 1*this.basicScore;
+            //     this.betBtnBox.getChildByName("bet2").getChildByName("Label").getComponent("cc.Label").string = 5*this.basicScore;
+            //     this.betBtnBox.getChildByName("bet3").getChildByName("Label").getComponent("cc.Label").string = 10*this.basicScore;
+            //     this.betBtnBox.getChildByName("bet4").getChildByName("Label").getComponent("cc.Label").string = 20*this.basicScore;
+            //     this.betNumMax = 20;
+            //     this.niuniuBetType = 1;
+            // }
         }
 
         this.gameStatus = this.node.getChildByName("gameStatus");
@@ -1963,8 +1967,22 @@ cc.Class({
             self.gameAniNode.showScoreAni(confige.getCurChair(chair),-number);
         };
         this.scheduleOnce(showCharge,5);
-
         
+    },
+
+    endConsume:function(consumeData){
+        var self = this;
+
+        var showConsume = function(){
+            this.gameAniNode.resetScoreAni();
+            for(var i in consumeData)
+            {
+                self.gamePlayerNode.playerScoreList[i] -= consumeData[i];
+                self.gamePlayerNode.playerInfoList[confige.getCurChair(i)].setScore(self.gamePlayerNode.playerScoreList[i]);
+                self.gameAniNode.showScoreAni(confige.getCurChair(i),-consumeData[i]);
+            }
+        };
+        this.scheduleOnce(showConsume,5);
     },
 
     lottoAward:function(lottoData){

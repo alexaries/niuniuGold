@@ -49,7 +49,7 @@ cc.Class({
             console.log("this.expendMode === ",this.expendMode);
             this.saveRoomInfo();
             pomelo.request("connector.entryHandler.sendData", {"code" : "createInitiativeRoom","params" : {
-                gameType:this.gameType,rate:this.curRate,cardMode:this.cardMode,bankerMode:this.bankerMode,basicType:this.basicType,coverCharge:this.expendMode}}, function(data) {
+                gameType:this.gameType,rate:this.curRate,cardMode:this.cardMode,bankerMode:this.bankerMode,coverCharge:this.expendMode}}, function(data) {
                     console.log("create room OK@@@@@@@@@@");
                     console.log(data);
                     if(data.flag == false)
@@ -152,23 +152,23 @@ cc.Class({
         else if(this.bankerMode == 5)
             this.bankerModeSelect.getChildByName("toggle4").getComponent("cc.Toggle").isChecked = true;
 
-        if(this.basicType == 4 || this.basicType == 5)
+        /*if(this.basicType == 4 || this.basicType == 5)
         {
             this.basicModeSelect.active = false;
             this.basicModeSelect2.active = true;
-        }
-        this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
-        this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
-        this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
-        this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
-        if(this.basicType == 0)
-            this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
-        else if(this.basicType == 1)
-            this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
-        else if(this.basicType == 4)
-            this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
-        else if(this.basicType == 5)
-            this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+        }*/
+        // this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        // this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        // this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
+        // this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+        // if(this.basicType == 0)
+        //     this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        // else if(this.basicType == 1)
+        //     this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
+        // else if(this.basicType == 4)
+        //     this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+        // else if(this.basicType == 5)
+        //     this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = true;
 
         this.expendModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = false;
         this.expendModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
@@ -271,19 +271,19 @@ cc.Class({
         console.log("selectGameMode   =====   "+index);
         if(index == 0){
             this.gameType = "niuniu";
-            this.basicModeSelect.active = true;
-            this.basicModeSelect2.active = false;
-            this.basicType = 0;
-            this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
-            this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+            // this.basicModeSelect.active = true;
+            // this.basicModeSelect2.active = false;
+            // this.basicType = 0;
+            // this.basicModeSelect.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+            // this.basicModeSelect.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
         }
         else if(index == 1){
             this.gameType = "mingpaiqz";
-            this.basicModeSelect.active = false;
-            this.basicModeSelect2.active = true;
-            this.basicType = 4;
-            this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
-            this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
+            // this.basicModeSelect.active = false;
+            // this.basicModeSelect2.active = true;
+            // this.basicType = 4;
+            // this.basicModeSelect2.getChildByName("toggle1").getComponent("cc.Toggle").isChecked = true;
+            // this.basicModeSelect2.getChildByName("toggle2").getComponent("cc.Toggle").isChecked = false;
         }
     },
     selectCardMode:function(event, customEventData){

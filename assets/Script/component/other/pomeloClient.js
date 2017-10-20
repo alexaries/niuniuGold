@@ -449,6 +449,10 @@ pomelo.dealWithOnMessage = function(data){
             if(confige.curSceneIndex == 2)
                 pomelo.clientScene.winCharge(data.charge,data.chair);
             break;
+        case "consume":
+            if(confige.curSceneIndex == 2)
+                pomelo.clientScene.endConsume(data.chargeList);
+            break;
     }
 };
         
@@ -569,9 +573,9 @@ pomelo.goldQuite = function() {
     );           
 };
 
-confige.host = "39.108.144.235";    //测试外网
-// confige.host = "39.108.225.227";     //运营外网
-// confige.host = "192.168.1.67";          //内网
+// confige.host = "39.108.144.235";     //测试外网
+confige.host = "http://hly.5d8d.com";   //"39.108.225.227";     //运营外网
+// confige.host = "192.168.1.65";       //内网
 pomelo.clientLogin = function(uid,clientLogintoken) {
     console.log("pomelo try to login!!!!!!");
     var route = 'gate.gateHandler.queryEntry';
