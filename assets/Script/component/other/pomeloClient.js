@@ -87,6 +87,7 @@ pomelo.dealWithOnMessage = function(data){
                     if(confige.curReconnectType == confige.ON_HALL)
                     {
                         //自动跳转游戏场景并恢复数据
+                        console.log("自动跳转游戏场景并恢复数据");
                         confige.gameSceneLoadOver = false;
                         confige.gameSceneLoadData = [];
 

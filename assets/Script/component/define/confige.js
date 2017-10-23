@@ -101,6 +101,7 @@ var cfg = {
   curMailData : [],
   firstShowNotice : true,
 
+  lastFriendRoomID : -1,
 
   GVoiceIsInit : false,
   GVoiceRoomID : -1,
@@ -230,6 +231,7 @@ cfg.quitToHallScene = function(showProgress){
       clearTimeout(cfg.curGameScene.gameInfoNode.yuyinTimeOut);
   cfg.curGameScene.destroy();
   cfg.resetGameData();
+  cfg.curReconnectType = cfg.ON_HALL;
   if(cfg.curUsePlatform == 1 || cfg.curUsePlatform == 2)
   {
       cfg.GVoiceCall.quitRoom(cfg.GVoiceRoomID);

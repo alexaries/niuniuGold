@@ -1,6 +1,7 @@
 var confige = require("confige");
 var lotto = require("lotto");
 var giftBag = require("giftBag");
+var tipsConf = require("tips").tipsConf;
 
 cc.Class({
     extends: cc.Component,
@@ -304,6 +305,11 @@ cc.Class({
         };
         this.schedule(callFunc2,3);
 
+        this.btnReturnGame = this.node.getChildByName("btnReturnGame");
+        if(confige.lastFriendRoomID != -1)
+        {
+            this.btnReturnGame.active = true;
+        }
     },
     
     start:function(){
@@ -773,9 +779,9 @@ cc.Class({
         {
             this.playerNode.x = -441;
             this.playerNode.y = -65;
-            this.diamondNode.x = -54;
+            this.diamondNode.x = -238;
             this.diamondNode.y = -43;
-            this.goldNode.x = 267;
+            this.goldNode.x = 39;
             this.goldNode.y = -43;
 
             this.btnReturn.active = false;
@@ -789,6 +795,10 @@ cc.Class({
             this.friendModeLayer.hideLayer();
             this.friendModeBg.active = false;
             this.curGameMode = 0;
+            if(confige.lastFriendRoomID != -1)
+            {
+                this.btnReturnGame.active = true;
+            }
         }else if(index == 1){
             this.playerNode.x = -322;
             this.playerNode.y = -65;
@@ -797,6 +807,7 @@ cc.Class({
             this.goldNode.x = 410;
             this.goldNode.y = -62;
 
+            this.btnReturnGame.active = false;
             this.btnReturn.active = true;
             this.goldModeLayer.showLayer();
             this.curGameMode = 1;
@@ -819,6 +830,7 @@ cc.Class({
             this.goldNode.x = 410;
             this.goldNode.y = -62;
 
+            this.btnReturnGame.active = false;
             this.btnReturn.active = true;
             this.friendModeLayer.showLayer();
             this.friendModeBg.active = true;
@@ -1022,4 +1034,21 @@ cc.Class({
         }, 0.1);
     },
     
+    btnReturnGameClick:function(){
+        var self = this;
+        pomelo.request("connector.entryHandler.sendData", {"code" : "joinInitiativeRoom","params" : {
+            roomId: confige.lastFriendRoomID}}, function(data) {
+                confige.lastFriendRoomID = -1;
+                self.btnReturnGame.active = false;
+                console.log("join room OK@@@@@@@@@@");
+                console.log(data);
+                if(data.flag == false){
+                    if(data.msg.msg)
+                        self.showTips(tipsConf[data.msg.msg]);
+                    if(data.msg.msg == 22)
+                        pomelo.disconnect();
+                }
+            }
+        );
+    },
 });

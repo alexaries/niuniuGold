@@ -52,9 +52,12 @@ cc.Class({
                 gameType:this.gameType,rate:this.curRate,cardMode:this.cardMode,bankerMode:this.bankerMode,coverCharge:this.expendMode}}, function(data) {
                     console.log("create room OK@@@@@@@@@@");
                     console.log(data);
-                    if(data.flag == false)
+                    if(data.flag == false){
                         if(data.msg.msg)
                             self.parent.showTips(tipsConf[data.msg.msg]);
+                    }else{
+                        self.parent.loadingLayer.showLoading();
+                    }
                 }
             ); 
         }
@@ -213,11 +216,14 @@ cc.Class({
             roomId: roomId}}, function(data) {
                 console.log("join room OK@@@@@@@@@@");
                 console.log(data);
-                if(data.flag == false)
+                if(data.flag == false){
                         if(data.msg.msg){
                             self.parent.showTips(tipsConf[data.msg.msg]);
                             self.cleanRoomId();
                         }
+                }else{
+                    self.parent.loadingLayer.showLoading();
+                }
             }
         ); 
         console.log("join room" + roomId);

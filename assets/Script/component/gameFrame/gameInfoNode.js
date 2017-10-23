@@ -34,8 +34,10 @@ cc.Class({
         
         if(confige.roomData.initiativeFlag == true)
         {
+            confige.lastFriendRoomID = confige.roomData.roomId;
             this.roomInfo = this.node.getChildByName("roomData2");
         }else{
+            confige.lastFriendRoomID = -1;
             this.roomInfo = this.node.getChildByName("roomData1");
         }
         this.roomInfo.active = true;
