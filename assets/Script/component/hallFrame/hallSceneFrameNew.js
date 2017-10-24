@@ -1044,9 +1044,12 @@ cc.Class({
                 console.log(data);
                 if(data.flag == false){
                     if(data.msg.msg)
-                        self.showTips(tipsConf[data.msg.msg]);
-                    if(data.msg.msg == 22)
-                        pomelo.disconnect();
+                    {
+                        if(data.msg.msg == 22)
+                            pomelo.disconnect();
+                        else
+                            self.showTips(tipsConf[data.msg.msg]);
+                    }
                 }
             }
         );
