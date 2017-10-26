@@ -195,6 +195,21 @@ cc.Class({
         //         }
         //     }
         
+        if(confige.curGold <= 2000)
+        {
+            var self = this;
+            pomelo.request("connector.award.bankruptGold",null, function(data) {
+                console.log(data);
+                if(data.flag == true)
+                {   
+                    self.rewardLayer.showOrinal(data.value);
+                }else{
+                    console.log("已经不能再领取了!!!!!!");
+                    if(confige.curGold < 500)
+                        self.shopLayer.showLayer(1);
+                }
+            });  
+        }
         // this.rewardLayer.showAnimation();
 
         console.log(lotto);
@@ -244,32 +259,32 @@ cc.Class({
 
         // this.getRechargeInfo();
 
-        // var myDate = new Date()
-        // var month = myDate.getMonth()
-        // var date = myDate.getDate()
-        // if(month < 10){
-        //     month = "0"+month
-        // }
-        // if(date < 10){
-        //     date = "0"+date
-        // }
-        // var dateString = parseInt(""+myDate.getFullYear() + month + date)
-        // console.log("dateString===",dateString);
-        // console.log("recordDate===",confige.userInfo.refreshList.lottoTime);
-        // if(dateString > confige.userInfo.refreshList.lottoTime && confige.userInfo.refreshList.lottoCount == 0){
-        //     console.log("dateString > confige.userInfo.loginRecord.recordDate!!!!!!!")
-        //     cc.sys.localStorage.setItem('canUseRotary',true);
-        // }else{
-        //     cc.sys.localStorage.setItem('canUseRotary',false);
-        // }
-        // if(cc.sys.localStorage.getItem('canUseRotary') == "true")
-        // {
-        //     console.log("rotaryLayer √showLayer!!!!!!!")
-        //     if(confige.openGame == true){
-        //         this.rotaryLayer.showLayer();
-        //         confige.activityActive[0] = true;
-        //     }
-        // }
+        var myDate = new Date()
+        var month = myDate.getMonth()
+        var date = myDate.getDate()
+        if(month < 10){
+            month = "0"+month
+        }
+        if(date < 10){
+            date = "0"+date
+        }
+        var dateString = parseInt(""+myDate.getFullYear() + month + date)
+        console.log("dateString===",dateString);
+        console.log("recordDate===",confige.userInfo.refreshList.lottoTime);
+        if(dateString > confige.userInfo.refreshList.lottoTime && confige.userInfo.refreshList.lottoCount == 0){
+            console.log("dateString > confige.userInfo.loginRecord.recordDate!!!!!!!")
+            cc.sys.localStorage.setItem('canUseRotary',true);
+        }else{
+            cc.sys.localStorage.setItem('canUseRotary',false);
+        }
+        if(cc.sys.localStorage.getItem('canUseRotary') == "true")
+        {
+            console.log("rotaryLayer √showLayer!!!!!!!")
+            if(confige.openGame == true){
+                this.rotaryLayer.showLayer();
+                confige.activityActive[0] = true;
+            }
+        }
 
         confige.curSceneIndex = 1;
 
