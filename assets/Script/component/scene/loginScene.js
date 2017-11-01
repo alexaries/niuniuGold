@@ -462,9 +462,10 @@ cc.Class({
     },
 
     onBtnWeixinClicked:function(){
+        this.btn_login2.interactable = false;
         if(confige.curUsePlatform == 1 || confige.curUsePlatform == 2)
         {
-            this.showLoading();
+            // this.showLoading();
             confige.loginType = 1;
             var lastLoginCount = 99;
             if(cc.sys.localStorage.getItem("wxLastLoginDay") != null)
@@ -479,17 +480,13 @@ cc.Class({
                 }else if(confige.curUsePlatform == 2){
                     jsb.reflection.callStaticMethod("JSCallOC", "WXLogin"); 
                 }
+                this.showLoading();
             }else{
                 confige.WX_REFRESH_TOKEN = cc.sys.localStorage.getItem('wxRefreshToken');
                 var curRefreshToken = confige.WX_REFRESH_TOKEN;
                 this.wxRefreshLogin();
             }
         }
-        this.btn_login2.interactable = false;
-        var self = this;
-        this.scheduleOnce(function(){
-            self.btn_login2.interactable = true;
-        },3)
     },
 
     wxLoginJavaCall:function(code){
@@ -498,23 +495,16 @@ cc.Class({
         var xmlHttp = this.createXMLHttpRequest();
 
         var httpCallback = function(){
+            self.btn_login2.interactable = true;
             var loginJson = JSON.parse(xmlHttp.responseText);
             confige.WX_LOGIN_RETURN = loginJson;
-            if(loginJson.openid && loginJson.access_token)
-            {
-                // self.testLabel.string = "微信授权登陆成功,得到openid和token";
-                confige.WX_ACCESS_TOKEN = loginJson.access_token;
-                confige.WX_OPEN_ID = loginJson.openid;
-                confige.WX_UNIONID = loginJson.unionid;
-                confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
-                pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
-                cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
-                cc.sys.localStorage.setItem("wxLastLoginDay",confige.getDayCount());
-            }else{
-                // self.testLabel.string = "登陆失败,没有openid和token";
-                console.log("login error");
-            }
-            
+            confige.WX_ACCESS_TOKEN = loginJson.access_token;
+            confige.WX_OPEN_ID = loginJson.openid;
+            confige.WX_UNIONID = loginJson.unionid;
+            confige.WX_REFRESH_TOKEN = loginJson.refresh_token;
+            pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
+            cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
+            cc.sys.localStorage.setItem("wxLastLoginDay",confige.getDayCount());
         };
 
         this.scheduleOnce(function() {
@@ -554,8 +544,19 @@ cc.Class({
                 // jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "JAVALog", "(Ljava/lang/String;)V", loginJson.access_token);
                 pomelo.clientLogin(confige.WX_OPEN_ID, confige.WX_ACCESS_TOKEN);
                 cc.sys.localStorage.setItem("wxRefreshToken",loginJson.refresh_token);
+                self.showLoading();
+                self.btn_login2.interactable = true;
             }else{
                 console.log("refresh error");
+                cc.sys.localStorage.setItem("wxRefreshToken",null);
+                if(confige.curUsePlatform == 1)
+                {
+                    jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXLogin", "()V");
+                }else if(confige.curUsePlatform == 2){
+                    jsb.reflection.callStaticMethod("JSCallOC", "WXLogin"); 
+                }
+                self.showLoading();
+                self.btn_login2.interactable = true;
             }
         };
 
@@ -594,6 +595,7 @@ cc.Class({
     
     WXCancle:function(){
         this.btn_loginNode2.active = true;
+        this.btn_login2.interactable = true;
         this.loadingLayer.hideLoading();
     },
 
