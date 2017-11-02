@@ -12000,7 +12000,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "8a611ZcK6tNZqq4tjgaeDIQ",
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 305
@@ -13145,7 +13145,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_id": "0c4edyFpp5CXKD+aEVj5lOY",
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "groupIndex": 0
@@ -15749,7 +15749,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -234,
+      "x": 0,
       "y": 0
     },
     "_skewX": 0,

@@ -574,8 +574,7 @@ pomelo.goldQuite = function() {
     );           
 };
 
-// confige.host = "39.108.144.235";     //测试外网
-confige.host = "39.108.225.227";//"http://hly.5d8d.com";   //"39.108.225.227";     //运营外网
+confige.host = "120.78.189.164";        //运营外网
 // confige.host = "192.168.1.65";       //内网
 pomelo.clientLogin = function(uid,clientLogintoken) {
     console.log("pomelo try to login!!!!!!");

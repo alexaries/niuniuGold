@@ -62,14 +62,17 @@ cc.Class({
     showLayer:function(type){  //0:diamond;1:gold
         if(this.isInit == false)
             this.onInit();
-        if(type == 0)
-        {
-            this.diamondNode.active = true;
-            this.goldNode.active = false;
-        }else if(type == 1){
-            this.diamondNode.active = false;
-            this.goldNode.active = true;
-        }
+        // if(type == 0)
+        // {
+        //     this.diamondNode.active = true;
+        //     this.goldNode.active = false;
+        // }else if(type == 1){
+        //     this.diamondNode.active = false;
+        //     this.goldNode.active = true;
+        // }
+        this.diamondNode.active = false;
+        this.goldNode.active = true;
+        
         this.node.active = true;
     },
 

@@ -3,8 +3,8 @@
     if (cc.sys.isNative) { 
         var previousVersion = cc.sys.localStorage.getItem('currentVersion');
         if(previousVersion == null)
-            previousVersion =  "1.0";
-        if(previousVersion < "1.37")
+            previousVersion =  "1.01";
+        if(previousVersion < "1.02")
             cc.sys.localStorage.setItem('HotUpdateSearchPaths',null);
         var hotUpdateSearchPaths = cc.sys.localStorage.getItem('HotUpdateSearchPaths'); 
         if (hotUpdateSearchPaths) { 

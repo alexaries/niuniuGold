@@ -25,8 +25,7 @@ cc.Class({
         this.shareBtn1.interactable = false;
         this.shareBtn2.interactable = false;
         var index = parseInt(customEventData);
-        var newShareURL = "http://pay.5d8d.com/index.php/gold/myqrcode"
-        newShareURL += "?invite_code=" + confige.h5InviteCode;
+        var newShareURL = "http://update.5d8d.com:8431/goldDownload.html"
         
         if(index == 0){
             cc.log("分享给好友");

@@ -158,8 +158,8 @@ cfg.roomLimit = {
   limitMaxRate : 4000
 };
 
-cfg.curVersion = "1.37";
-cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。有事咨询客服，客服微信号：YCYX1818";
+cfg.curVersion = "1.02";
+cfg.oriPaomaText = "和谐游戏，拒绝赌博，如若发现，封号并提交公安机关处理。";
 cfg.versionCheck = "1.2.024&KSAJDGFKJASHDFGASHDGAFDGH";
 cfg.resetGameData = function(){
   cfg.gameSceneLoadData = [];
@@ -207,8 +207,8 @@ cfg.meWXHeadFrame = -1;
 cfg.WXHeadFrameList = {};
 
 //
-cfg.payURL = "http://pay.5d8d.com/index.php/download/gold";
-cfg.shareURL = "http://pay.5d8d.com/index.php/gold/myqrcode"//?invite_code=0";   //"http://pay.5d8d.com/index.php/download/gold";
+cfg.payURL = "http://baidu.com";
+cfg.shareURL = "http://update.5d8d.com:8431/goldDownload.html";
 cfg.shareTitle = "我在玩欢乐赢棋牌,快来一起玩吧";
 cfg.shareDes = "我在玩欢乐赢棋牌,快来一起玩吧";
 //
@@ -290,6 +290,7 @@ cfg.CallGVoicePoll = function(){
 
 cfg.GVoiceCall = {
   init : function(openID){
+    return;
     if(cfg.GVoiceIsInit == false){
         var appid = "1538764053";
         var appkey = "df65afe71389e543f92bf6aa93d4b5c8";
@@ -305,6 +306,7 @@ cfg.GVoiceCall = {
   },
 
   joinRoom : function(roomID){
+    return;
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceJoinRoom", "(Ljava/lang/String;)V", roomID);
     }else if(cfg.curUsePlatform == 2){
@@ -314,6 +316,7 @@ cfg.GVoiceCall = {
   },
 
   quitRoom : function(roomID){
+    return;
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceQuitRoom", "(Ljava/lang/String;)V", roomID);
     }else if(cfg.curUsePlatform == 2){
@@ -323,6 +326,7 @@ cfg.GVoiceCall = {
   },
 
   openListen : function(){
+    return;
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceListenOpen", "()V");
     }else if(cfg.curUsePlatform == 2){
@@ -332,6 +336,7 @@ cfg.GVoiceCall = {
   },
 
   closeListen : function(){
+    return;
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceListenClose", "()V");
     }else if(cfg.curUsePlatform == 2){
@@ -342,6 +347,7 @@ cfg.GVoiceCall = {
   },
 
   openMic : function(){
+    return;
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceMicOpen", "()V");
     }else if(cfg.curUsePlatform == 2){
@@ -351,6 +357,7 @@ cfg.GVoiceCall = {
   },
 
   closeMic : function(tag){
+    return;
     if(cfg.curUsePlatform == 1){
       jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "GVoiceMicClose", "(I)V",tag);
     }else if(cfg.curUsePlatform == 2){

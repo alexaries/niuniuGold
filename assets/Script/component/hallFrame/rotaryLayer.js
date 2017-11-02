@@ -27,7 +27,7 @@ cc.Class({
 
         this.rotationTime = 10;
         this.isInit = true;
-        this.initSignin();
+        // this.initSignin();
         if(this.sceneType == "game")
         {
             this.rotationTime = 3;

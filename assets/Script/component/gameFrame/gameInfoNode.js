@@ -169,108 +169,109 @@ cc.Class({
         this.yuyinTimeOut = -1; 
 
         this.yuyinBtn = this.node.getChildByName("btn_yuyin");
-        if(confige.curUsePlatform == 1 || confige.curUsePlatform == 2)
-        {
-            confige.GVoiceCall.init(""+confige.userInfo.uid);//(confige.roomData.roomId*10 + gameData.gameMainScene.meChair));
-            confige.GVoiceRoomID = "" + confige.roomData.roomId;
-            confige.GVoiceCall.joinRoom(confige.GVoiceRoomID);
-            var voicePath = jsb.fileUtils.getWritablePath() + 'GVoice/';
-            if (!jsb.fileUtils.isDirectoryExist(voicePath)) {
-                jsb.fileUtils.createDirectory(voicePath);
-            }
-            if(confige.curUsePlatform == 1){
-                jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "SetVoicePath", "(Ljava/lang/String;)V", voicePath);
-            }else if(confige.curUsePlatform == 2){
-                console.log("231");
-                jsb.reflection.callStaticMethod("JSCallOC", "GVoiceSetPath:",voicePath);
-            }
-            // confige.GVoiceCall.openListen();
+        this.yuyinBtn.getComponent("cc.Button").interactable = false;
+        // if(confige.curUsePlatform == 1 || confige.curUsePlatform == 2)
+        // {
+        //     confige.GVoiceCall.init(""+confige.userInfo.uid);//(confige.roomData.roomId*10 + gameData.gameMainScene.meChair));
+        //     confige.GVoiceRoomID = "" + confige.roomData.roomId;
+        //     confige.GVoiceCall.joinRoom(confige.GVoiceRoomID);
+        //     var voicePath = jsb.fileUtils.getWritablePath() + 'GVoice/';
+        //     if (!jsb.fileUtils.isDirectoryExist(voicePath)) {
+        //         jsb.fileUtils.createDirectory(voicePath);
+        //     }
+        //     if(confige.curUsePlatform == 1){
+        //         jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "SetVoicePath", "(Ljava/lang/String;)V", voicePath);
+        //     }else if(confige.curUsePlatform == 2){
+        //         console.log("231");
+        //         jsb.reflection.callStaticMethod("JSCallOC", "GVoiceSetPath:",voicePath);
+        //     }
+        //     // confige.GVoiceCall.openListen();
 
-            var self = this;
-            this.btn_quickSay = this.node.getChildByName("btn_quickSay");
-            var btnYY = this.yuyinBtn;
-            var voiceMaskLayer = this.node.getChildByName("voiceMaskLayer");
-            var voiceMaskNode1 = voiceMaskLayer.getChildByName("node1");
-            var voiceMaskNode2 = voiceMaskLayer.getChildByName("node2");
-            var voiceTouchBeginY = 0;
-            var newYuyinPos = this.node.convertToWorldSpaceAR(cc.v2(btnYY.x,btnYY.y));
-            var onSay = false;
-            var voiceCancle = false;
-            var sayCallBack = function(){
-                if(onSay == true){
-                    closeMicFunc();
-                }
-            };
-            var closeMicFunc = function(){
-                if(voiceCancle == true)
-                    confige.GVoiceCall.closeMic(1);
-                else
-                    confige.GVoiceCall.closeMic(0);
-                voiceMaskLayer.active = false;
-                onSay = false;
-                self.unschedule(sayCallBack);
-                btnYY.runAction(cc.scaleTo(0.1,1.0));
-                self.openMusicAndSound();
-                self.endSayTime();
-                voiceMaskNode1.active = false;
-                voiceMaskNode2.active = false;
-            };
+        //     var self = this;
+        //     this.btn_quickSay = this.node.getChildByName("btn_quickSay");
+        //     var btnYY = this.yuyinBtn;
+        //     var voiceMaskLayer = this.node.getChildByName("voiceMaskLayer");
+        //     var voiceMaskNode1 = voiceMaskLayer.getChildByName("node1");
+        //     var voiceMaskNode2 = voiceMaskLayer.getChildByName("node2");
+        //     var voiceTouchBeginY = 0;
+        //     var newYuyinPos = this.node.convertToWorldSpaceAR(cc.v2(btnYY.x,btnYY.y));
+        //     var onSay = false;
+        //     var voiceCancle = false;
+        //     var sayCallBack = function(){
+        //         if(onSay == true){
+        //             closeMicFunc();
+        //         }
+        //     };
+        //     var closeMicFunc = function(){
+        //         if(voiceCancle == true)
+        //             confige.GVoiceCall.closeMic(1);
+        //         else
+        //             confige.GVoiceCall.closeMic(0);
+        //         voiceMaskLayer.active = false;
+        //         onSay = false;
+        //         self.unschedule(sayCallBack);
+        //         btnYY.runAction(cc.scaleTo(0.1,1.0));
+        //         self.openMusicAndSound();
+        //         self.endSayTime();
+        //         voiceMaskNode1.active = false;
+        //         voiceMaskNode2.active = false;
+        //     };
             
-            // 添加单点触摸事件监听器
-            var voiceListen = {
-                event: cc.EventListener.TOUCH_ONE_BY_ONE,
-                onTouchBegan: function (touches, event) {
-                    if(touches.getLocationX() > newYuyinPos.x - 40 &&
-                       touches.getLocationX() < newYuyinPos.x + 40 &&
-                       touches.getLocationY() > newYuyinPos.y - 40 &&
-                       touches.getLocationY() < newYuyinPos.y + 40 
-                        )
-                    {
-                        cc.log('Touch Began: ' + event + "xxx===" + touches.getLocationX() + "yyy===" + touches.getLocationY());
-                        self.closeMusicAndSound();
-                        self.beginSayTime();
-                        if(self.playTimeSchedule != -1)
-                            self.unschedule(self.playTimeSchedule);
-                        confige.GVoiceCall.openMic();
-                        voiceMaskLayer.active = true;
-                        voiceMaskNode1.active = true;
-                        onSay = true;
-                        self.scheduleOnce(sayCallBack,10);
-                        btnYY.runAction(cc.scaleTo(0.1,0.8));
-                        voiceTouchBeginY = touches.getLocationY();
-                        voiceCancle = false;
-                        return true; //这里必须要写 return true
-                    }else{
-                        return false;
-                    }
+        //     // 添加单点触摸事件监听器
+        //     var voiceListen = {
+        //         event: cc.EventListener.TOUCH_ONE_BY_ONE,
+        //         onTouchBegan: function (touches, event) {
+        //             if(touches.getLocationX() > newYuyinPos.x - 40 &&
+        //                touches.getLocationX() < newYuyinPos.x + 40 &&
+        //                touches.getLocationY() > newYuyinPos.y - 40 &&
+        //                touches.getLocationY() < newYuyinPos.y + 40 
+        //                 )
+        //             {
+        //                 cc.log('Touch Began: ' + event + "xxx===" + touches.getLocationX() + "yyy===" + touches.getLocationY());
+        //                 self.closeMusicAndSound();
+        //                 self.beginSayTime();
+        //                 if(self.playTimeSchedule != -1)
+        //                     self.unschedule(self.playTimeSchedule);
+        //                 confige.GVoiceCall.openMic();
+        //                 voiceMaskLayer.active = true;
+        //                 voiceMaskNode1.active = true;
+        //                 onSay = true;
+        //                 self.scheduleOnce(sayCallBack,10);
+        //                 btnYY.runAction(cc.scaleTo(0.1,0.8));
+        //                 voiceTouchBeginY = touches.getLocationY();
+        //                 voiceCancle = false;
+        //                 return true; //这里必须要写 return true
+        //             }else{
+        //                 return false;
+        //             }
                     
-                },
-                onTouchMoved: function (touches, event) {
-                    //cc.log('Touch Moved: ' + event);
-                    if(touches.getLocationY() - voiceTouchBeginY > 100)
-                    {
-                        voiceMaskNode1.active = false;
-                        voiceMaskNode2.active = true;
-                        voiceCancle = true;
-                    }
-                },
-                onTouchEnded: function (touches, event) {
-                    cc.log('Touch Ended: ' + event);
-                    closeMicFunc();
-                },
-                onTouchCancelled: function (touches, event) {
-                   //cc.log('Touch Cancelled: ' + event);
-                }
-            };
-            // 绑定单点触摸事件
-            cc.eventManager.addListener(voiceListen, this.btn_quickSay);
-        }else{
-            this.yuyinBtn.getComponent("cc.Button").interactable = false;
-            // if(confige.curUsePlatform != 3)
-            //     this.btn_inviteFriend.active = false;
-            // else
-            //     this.yuyinBtn.active = false;
-        }
+        //         },
+        //         onTouchMoved: function (touches, event) {
+        //             //cc.log('Touch Moved: ' + event);
+        //             if(touches.getLocationY() - voiceTouchBeginY > 100)
+        //             {
+        //                 voiceMaskNode1.active = false;
+        //                 voiceMaskNode2.active = true;
+        //                 voiceCancle = true;
+        //             }
+        //         },
+        //         onTouchEnded: function (touches, event) {
+        //             cc.log('Touch Ended: ' + event);
+        //             closeMicFunc();
+        //         },
+        //         onTouchCancelled: function (touches, event) {
+        //            //cc.log('Touch Cancelled: ' + event);
+        //         }
+        //     };
+        //     // 绑定单点触摸事件
+        //     cc.eventManager.addListener(voiceListen, this.btn_quickSay);
+        // }else{
+        //     this.yuyinBtn.getComponent("cc.Button").interactable = false;
+        //     // if(confige.curUsePlatform != 3)
+        //     //     this.btn_inviteFriend.active = false;
+        //     // else
+        //     //     this.yuyinBtn.active = false;
+        // }
     },
 
     //聊天模块代码,聊天的内容在msg对象中,其中sayType表示聊天模式(0快捷聊天,1快捷表情,2输入文字聊天),当sayType为0或1时,通过index去索引内容,当为2时通过string来获取内容
@@ -538,8 +539,7 @@ cc.Class({
 
         this.btn_inviteFriend.interactable = false;
 
-        var newShareURL = "http://pay.5d8d.com/index.php/gold/myqrcode"
-        newShareURL += "?invite_code=" + confige.h5InviteCode;
+        var newShareURL = "http://update.5d8d.com:8431/goldDownload.html"
         
         if(confige.curUsePlatform == 1)
             jsb.reflection.callStaticMethod("org/cocos2dx/javascript/JSCallJAVA", "WXShare", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V", curTitle, curDes, newShareURL, 0);
